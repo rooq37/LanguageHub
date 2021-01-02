@@ -6,6 +6,7 @@ import Navigation from "../common/navigation/Navigation";
 import About from "../about/About";
 import Footer from "../common/footer/Footer";
 import Home from "../home/Home";
+import Translator from "../translator/Translator";
 
 class App extends Component {
   render() {
@@ -15,6 +16,7 @@ class App extends Component {
         <div id="content">
           <Router>
             <Route exact path="/" component={Home} />
+            <Route path="/translator" component={Translator} />
             <Route path="/about" component={About} />
           </Router>
         </div>
