@@ -7,8 +7,8 @@ import lombok.Setter;
 @Setter
 public class TranslateRequest {
 
-    private String sourceLanguageCode;
-    private String targetLanguageCode;
+    private LanguageCode sourceLanguageCode;
+    private LanguageCode targetLanguageCode;
     private String text;
 
 }

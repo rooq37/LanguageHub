@@ -1,5 +1,6 @@
 package com.zrcaw.langshub.service.translate;
 
+import com.zrcaw.langshub.dto.translate.LanguageCode;
 import com.zrcaw.langshub.dto.translate.TranslateRequest;
 import com.zrcaw.langshub.dto.translate.TranslateResponse;
 import org.springframework.stereotype.Service;
@@ -36,8 +37,8 @@ public class TranslateService {
         TranslateResponse response = new TranslateResponse();
 
         TranslateTextRequest textRequest = TranslateTextRequest.builder()
-                .sourceLanguageCode(request.getSourceLanguageCode())
-                .targetLanguageCode(request.getTargetLanguageCode())
+                .sourceLanguageCode(request.getSourceLanguageCode().getValue())
+                .targetLanguageCode(request.getTargetLanguageCode().getValue())
                 .text(request.getText())
                 .build();
 

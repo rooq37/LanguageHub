@@ -9,7 +9,7 @@ public enum ExerciseType {
 
     private final String value;
 
-    private ExerciseType(String value) {
+    ExerciseType(String value) {
         this.value = value;
     }
 
