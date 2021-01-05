@@ -49,13 +49,13 @@ public class TranslateService {
     }
 
     public InputStream synthesize(String text) {
-        SynthesizeSpeechRequest synthReq = SynthesizeSpeechRequest.builder()
+        SynthesizeSpeechRequest synthesizeSpeechRequest = SynthesizeSpeechRequest.builder()
                 .text(text)
                 .voiceId(VoiceId.JACEK)
                 .outputFormat(OutputFormat.MP3)
                 .build();
 
-        return pollyClient.synthesizeSpeech(synthReq);
+        return pollyClient.synthesizeSpeech(synthesizeSpeechRequest);
     }
 
 }
