@@ -1,24 +1,17 @@
 package com.zrcaw.langshub.service.translate;
 
-import com.amazonaws.auth.AWSCredentialsProvider;
-import com.amazonaws.auth.AWSStaticCredentialsProvider;
-import com.amazonaws.auth.DefaultAWSCredentialsProviderChain;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.polly.AmazonPolly;
-import com.amazonaws.services.polly.AmazonPollyClient;
-import com.amazonaws.services.polly.model.OutputFormat;
-import com.amazonaws.services.polly.model.SynthesizeSpeechRequest;
-import com.amazonaws.services.polly.model.SynthesizeSpeechResult;
-import com.amazonaws.services.polly.model.VoiceId;
-import com.amazonaws.services.transcribe.AmazonTranscribe;
-import com.amazonaws.services.transcribe.AmazonTranscribeClient;
-import com.amazonaws.services.translate.AmazonTranslate;
-import com.amazonaws.services.translate.AmazonTranslateClient;
-import com.amazonaws.services.translate.model.TranslateTextRequest;
-import com.amazonaws.services.translate.model.TranslateTextResult;
 import com.zrcaw.langshub.dto.translate.TranslateRequest;
 import com.zrcaw.langshub.dto.translate.TranslateResponse;
 import org.springframework.stereotype.Service;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.polly.PollyClient;
+import software.amazon.awssdk.services.polly.model.OutputFormat;
+import software.amazon.awssdk.services.polly.model.SynthesizeSpeechRequest;
+import software.amazon.awssdk.services.polly.model.VoiceId;
+import software.amazon.awssdk.services.transcribe.TranscribeClient;
+import software.amazon.awssdk.services.translate.TranslateClient;
+import software.amazon.awssdk.services.translate.model.TranslateTextRequest;
+import software.amazon.awssdk.services.translate.model.TranslateTextResponse;
 
 import javax.annotation.PostConstruct;
 import java.io.InputStream;
@@ -26,49 +19,42 @@ import java.io.InputStream;
 @Service
 public class TranslateService {
 
-    private AmazonTranslate translateClient;
-    private AmazonPolly pollyClient;
-    private AmazonTranscribe transcribeClient;
+    private static final Region region = Region.US_EAST_1;
+
+    private TranslateClient translateClient;
+    private PollyClient pollyClient;
+    private TranscribeClient transcribeClient;
 
     @PostConstruct
     public void init() {
-        AWSCredentialsProvider awsCreds = DefaultAWSCredentialsProviderChain.getInstance();
-
-        translateClient = AmazonTranslateClient.builder()
-                .withCredentials(new AWSStaticCredentialsProvider(awsCreds.getCredentials()))
-                .withRegion(Regions.US_EAST_1)
-                .build();
-
-        pollyClient = AmazonPollyClient.builder()
-                .withCredentials(new AWSStaticCredentialsProvider(awsCreds.getCredentials()))
-                .withRegion(Regions.US_EAST_1)
-                .build();
-
-        transcribeClient = AmazonTranscribeClient.builder()
-                .withCredentials(new AWSStaticCredentialsProvider(awsCreds.getCredentials()))
-                .withRegion(Regions.US_EAST_1)
-                .build();
+        translateClient = TranslateClient.builder().region(region).build();
+        pollyClient = PollyClient.builder().region(region).build();
+        transcribeClient = TranscribeClient.builder().region(region).build();
     }
 
     public TranslateResponse translateText(TranslateRequest request) {
         TranslateResponse response = new TranslateResponse();
 
-        TranslateTextRequest req = new TranslateTextRequest()
-                .withText(request.getText())
-                .withSourceLanguageCode(request.getSourceLanguageCode())
-                .withTargetLanguageCode(request.getTargetLanguageCode());
-        TranslateTextResult result  = translateClient.translateText(req);
-        response.setTranslatedText(result.getTranslatedText());
+        TranslateTextRequest textRequest = TranslateTextRequest.builder()
+                .sourceLanguageCode(request.getSourceLanguageCode())
+                .targetLanguageCode(request.getTargetLanguageCode())
+                .text(request.getText())
+                .build();
+
+        TranslateTextResponse textResponse = translateClient.translateText(textRequest);
+        response.setTranslatedText(textResponse.translatedText());
 
         return response;
     }
 
     public InputStream synthesize(String text) {
-        SynthesizeSpeechRequest synthReq =
-                new SynthesizeSpeechRequest().withText(text).withVoiceId(VoiceId.Jacek).withOutputFormat(OutputFormat.Mp3);
-        SynthesizeSpeechResult synthRes = pollyClient.synthesizeSpeech(synthReq);
+        SynthesizeSpeechRequest synthReq = SynthesizeSpeechRequest.builder()
+                .text(text)
+                .voiceId(VoiceId.JACEK)
+                .outputFormat(OutputFormat.MP3)
+                .build();
 
-        return synthRes.getAudioStream();
+        return pollyClient.synthesizeSpeech(synthReq);
     }
 
 }
