@@ -2,12 +2,11 @@ package com.zrcaw.langshub.dynamodb_tables;
 
 public class ExerciseTable extends TablesService{
 
-    public boolean createExerciseTable() {
+    public void createExerciseTable() {
         String tableName = "Exercises";
         if(isTableCreated(tableName))
-            return true;
+            return;
 
         createTable(tableName, "author", "name");
-        return true;
     }
 }

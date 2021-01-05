@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 @RestController
-@RequestMapping("/translate")
+@RequestMapping("/api/translate")
 public class TranslateController {
 
     private final TranslateService translateService;
