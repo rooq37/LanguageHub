@@ -1,0 +1,37 @@
+[
+  {
+    "author": "Meffiu",
+    "closedAnswers": [
+      {
+        "answer": "prawda",
+        "correct": true
+      },
+      {
+        "answer": "fałsz",
+        "correct": false
+      }
+    ],
+    "groupName": "łatwe",
+    "name": "cztery",
+    "question": "Czy to prawda?",
+    "type": "CLOSED_QUESTION_EXERCISE"
+  },
+  {
+    "author": "Meffiu",
+    "groupName": "łatwe",
+    "name": "dwa",
+    "text": "text",
+    "type": "SPEAKING_EXERCISE"
+  },
+  {
+    "acceptableOpenAnswers": [
+      "Tak",
+      "Prawda"
+    ],
+    "author": "Meffiu",
+    "groupName": "łatwe",
+    "name": "trzy",
+    "question": "Pytanko?",
+    "type": "OPEN_QUESTION_EXERCISE"
+  }
+]
