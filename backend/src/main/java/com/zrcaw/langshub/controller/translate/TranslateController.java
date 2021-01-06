@@ -30,10 +30,10 @@ public class TranslateController {
 //
 //    }
 
-    @GetMapping(value = "/synthesize" + "/{text}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    public ResponseEntity synthesizeText(@PathVariable String text) throws IOException {
-        InputStream stream = translateService.synthesize(text);
-        return ResponseEntity.ok(stream.readAllBytes());
-    }
+//    @GetMapping(value = "/synthesize" + "/{text}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+//    public ResponseEntity synthesizeText(@PathVariable String text) throws IOException {
+//        InputStream stream = translateService.synthesize(text);
+//        return ResponseEntity.ok(stream.readAllBytes());
+//    }
 
 }
