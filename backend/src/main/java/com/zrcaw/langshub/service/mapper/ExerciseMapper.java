@@ -16,7 +16,7 @@ public class ExerciseMapper {
 
     public Exercise map(ExerciseDTO dto) {
         Exercise exercise = modelMapper.map(dto, Exercise.class);
-        ExerciseType type = ExerciseType.ofValue(dto.getClass().getSimpleName().replace("DTO", ""));
+        ExerciseType type = ExerciseType.ofValue(dto.getClass().getSimpleName());
         exercise.setType(type);
         return exercise;
     }
@@ -28,7 +28,7 @@ public class ExerciseMapper {
             case CLOSED_QUESTION_EXERCISE:
                 return modelMapper.map(exercise, ClosedQuestionExerciseDTO.class);
             case LISTENING_EXERCISE:
-                return modelMapper.map(exercise, ListeningExerciseDTO.class);
+                return modelMapper.map(exercise, ListeningExerciseResponse.class);
             case SPEAKING_EXERCISE:
                 return modelMapper.map(exercise, SpeakingExerciseDTO.class);
         }

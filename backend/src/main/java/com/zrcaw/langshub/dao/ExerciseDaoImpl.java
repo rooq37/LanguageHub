@@ -21,6 +21,7 @@ public class ExerciseDaoImpl implements ExerciseDao {
     private DynamoDbEnhancedClient enhancedClient = DynamoDbEnhancedClient.builder().dynamoDbClient(ddb).build();
     private DynamoDbTable<Exercise> exerciseTable = enhancedClient.table("Exercises", TableSchema.fromBean(Exercise.class));
 
+
     @Override
     public Optional<Exercise> getExercise(String author, String name) {
         Key key = Key.builder().partitionValue(author).sortValue(name).build();
@@ -37,6 +38,16 @@ public class ExerciseDaoImpl implements ExerciseDao {
             }
         }
         return exercises;
+    }
+
+    public List<Exercise> getGroup(String author, String groupName) {
+        List<Exercise> group = new ArrayList<>();
+        for (Exercise exercise : exerciseTable.scan().items()) {
+            if(exercise.getAuthor().contains(author) && exercise.getGroupName().contains(groupName)){
+                group.add(exercise);
+            }
+        }
+        return group;
     }
 
     @Override

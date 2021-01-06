@@ -7,16 +7,17 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = OpenQuestionExerciseDTO.class, name = "OpenQuestionExercise"),
         @JsonSubTypes.Type(value = ClosedQuestionExerciseDTO.class, name = "ClosedQuestionExercise"),
-        @JsonSubTypes.Type(value = ListeningExerciseDTO.class, name = "ListeningExercise"),
+        @JsonSubTypes.Type(value = ListeningExerciseRequest.class, name = "ListeningExercise"),
         @JsonSubTypes.Type(value = SpeakingExerciseDTO.class, name = "SpeakingExercise")
 })
 public abstract class ExerciseDTO {
 
     private String name;
     private String author;
+    private String groupName;
 
 }
