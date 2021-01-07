@@ -5,7 +5,7 @@ export type TranslateActions = ActionType<typeof actions>;
 
 export interface ITranslateState {
     translateResponse: TranslateResponse,
-    sound: string
+    sound: File
 }
 
 export enum ACTION_TYPES {
