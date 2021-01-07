@@ -1,12 +1,12 @@
 import React, { Component } from "react";
-import "./App.css";
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import "./app.css";
+import { BrowserRouter as Router, Route } from "react-router-dom";
 import "bootswatch/dist/flatly/bootstrap.min.css";
-import Navigation from "../common/navigation/Navigation";
-import About from "../about/About";
-import Footer from "../common/footer/Footer";
-import Home from "../home/Home";
-import Translator from "../translator/Translator";
+import Navigation from "../common/navigation/navigation";
+import About from "../about/about";
+import Footer from "../common/footer/footer";
+import Home from "../home/home";
+import Translator from "../translator/translator";
 
 class App extends Component {
   render() {
