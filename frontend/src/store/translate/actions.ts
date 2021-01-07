@@ -17,3 +17,12 @@ export function translateText(from, to, text) {
     })
   };
 }
+
+export function translateSynethesize(text) {
+  return function(dispatch){
+    return axios.get(`http://localhost:8080/api/translate/synthesize/` + text)
+    .then(json => {
+      dispatch({type: ACTION_TYPES.TRANSLATE_SYNETHESIZE, payload: json});
+    })
+  };
+}
