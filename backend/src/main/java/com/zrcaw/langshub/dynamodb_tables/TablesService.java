@@ -11,8 +11,8 @@ import java.util.List;
 
 public abstract class TablesService {
 
-    private Region region = Region.US_EAST_1;
-    private DynamoDbClient ddb = DynamoDbClient.builder().region(region).build();
+    protected Region region = Region.US_EAST_1;
+    protected DynamoDbClient ddb = DynamoDbClient.builder().region(region).build();
 
     public boolean isTableCreated(String tableName) {
         return getAllTableNames().contains(tableName);
@@ -100,4 +100,11 @@ public abstract class TablesService {
         waiterResponse.matched().response().ifPresent(System.out::println);
     }
 
+    public void deleteTable(String tableName) {
+        DynamoDbWaiter dbWaiter = ddb.waiter();
+
+        ddb.deleteTable(DeleteTableRequest.builder().tableName(tableName).build());
+
+        dbWaiter.waitUntilTableNotExists(r -> r.tableName(tableName));
+    }
 }
