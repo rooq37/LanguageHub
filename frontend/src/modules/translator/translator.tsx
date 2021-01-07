@@ -7,9 +7,11 @@ import { connect } from "react-redux";
 import { LanguageCodesEnum } from "../../enums/language-codes.enum";
 import { TranslateKindsEnum } from "../../enums/translate-kinds.enum";
 import { IRootState } from "../../store";
+import Record from "./record";
 import {
   translateText,
   translateSynethesize,
+  getTextFromSound,
 } from "../../store/translate/actions";
 
 export interface ITranslatorProps extends StateProps, DispatchProps {}
@@ -55,8 +57,19 @@ class Translator extends Component<ITranslatorProps, ITranslatorStates> {
     this.props.translateSynethesize(this.props.output);
   }
 
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.textToTranslate != null &&
+      prevProps.textToTranslate !== this.props.textToTranslate
+    ) {
+      this.setState({
+        text: this.props.textToTranslate,
+      });
+    }
+  }
+
   render() {
-    const { output, sound } = this.props;
+    const { output, sound, textToTranslate } = this.props;
     return (
       <Container>
         <Row>
@@ -69,15 +82,18 @@ class Translator extends Component<ITranslatorProps, ITranslatorStates> {
                 as="textarea"
                 rows={3}
                 onChange={this.handleTextChange.bind(this)}
-                defaultValue={this.state.text}
+                value={this.state.text}
               />
             </Form.Group>
+            <Record
+              onStop={(blobUrl) => this.props.getTextFromSound(blobUrl)}
+            />
             <Form.Group controlId="exampleForm.ControlSelect1">
               <Form.Label>Language</Form.Label>
               <Form.Control
                 as="select"
                 onChange={this.handleLangChange.bind(this)}
-                defaultValue={this.state.fromto}
+                defaultValue={this.props.textToTranslate}
               >
                 <option value={TranslateKindsEnum.PL_EN}>
                   Polish -{">"} English
@@ -99,7 +115,6 @@ class Translator extends Component<ITranslatorProps, ITranslatorStates> {
             Output:
             <p>{output}</p>
             <div hidden={!output}>
-              <p>(generated sound - please click button)</p>
               {sound ? (
                 <audio
                   src={"data:audio/mp3;base64," + sound}
@@ -126,11 +141,13 @@ class Translator extends Component<ITranslatorProps, ITranslatorStates> {
 const mapStateToProps = ({ translate }: IRootState) => ({
   output: translate.translateResponse.translatedText,
   sound: translate.sound,
+  textToTranslate: translate.textToTranslate,
 });
 
 const mapDispatchToProps = {
   translateText,
   translateSynethesize,
+  getTextFromSound,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

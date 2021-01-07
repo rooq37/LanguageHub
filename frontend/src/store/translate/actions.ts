@@ -26,3 +26,14 @@ export function translateSynethesize(text) {
     })
   };
 }
+
+export function getTextFromSound(sound: File){
+  const formData = new FormData();
+  formData.append('sound',sound);
+  return function(dispatch){
+    return axios.post(`http://localhost:8080/api/translate/sound`,  formData )
+    .then(json => {
+      dispatch({type: ACTION_TYPES.GET_TEXT_FROM_SOUND, payload: json});
+    })
+  };
+}
