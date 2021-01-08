@@ -12,7 +12,6 @@ import software.amazon.awssdk.services.transcribe.model.*;
 
 import javax.annotation.PostConstruct;
 import java.text.SimpleDateFormat;
-import java.util.Base64;
 import java.util.Date;
 import java.util.stream.Collectors;
 
@@ -33,11 +32,10 @@ public class TranscribeService {
         transcribeClient = TranscribeClient.builder().region(region).build();
     }
 
-    public String transcribeSound(String sound, String language) {
-        byte[] bytes = Base64.getDecoder().decode(sound);
+    public String transcribeSound(byte[] sound, String language) {
         String key = generateKey();
         String keyTranscribed = generateResultKey(key);
-        s3Service.uploadObject(key, RequestBody.fromBytes(bytes));
+        s3Service.uploadObject(key, RequestBody.fromBytes(sound));
 
         StartTranscriptionJobRequest request = getTranscriptionJobRequest(key, keyTranscribed, language);
 
@@ -72,7 +70,6 @@ public class TranscribeService {
                 .media(media)
                 .languageCode(language)
                 .transcriptionJobName(key)
-                .mediaFormat("mp3")
                 .outputBucketName(s3Service.getBucketName())
                 .outputKey(keyTranscribed)
                 .build();

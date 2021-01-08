@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.Base64;
 
 @RestController
 @RequestMapping("/api/translate")
@@ -34,9 +35,9 @@ public class TranslateController {
 
     @PostMapping("/sound")
     public ResponseEntity<String> transcriptSound(
-            @RequestBody String file,
-            @RequestParam(name = "language", required = false, defaultValue = "en-US") String language) {
-        return ResponseEntity.ok(transcribeService.transcribeSound(file, language));
+            @RequestParam(name = "sound") MultipartFile file,
+            @RequestParam(name = "language", required = false, defaultValue = "en-US") String language) throws IOException {
+        return ResponseEntity.ok(transcribeService.transcribeSound(file.getBytes(), language));
     }
 
     @GetMapping(value = "/synthesize" + "/{text}")
