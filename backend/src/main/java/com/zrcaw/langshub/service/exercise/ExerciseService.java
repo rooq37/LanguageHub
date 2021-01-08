@@ -16,8 +16,7 @@ import com.zrcaw.langshub.service.s3.S3Service;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.core.sync.RequestBody;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.Base64;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -108,7 +107,8 @@ public class ExerciseService {
         if(dto instanceof ListeningExerciseResponse) {
             ListeningExerciseResponse response = (ListeningExerciseResponse) dto;
             String key = getKey(dto.getAuthor(), dto.getName());
-            response.setSound(s3Service.downloadObject(key));
+            String encodedString = Base64.getEncoder().encodeToString(s3Service.downloadObject(key));
+            response.setEncodedSound(encodedString);
         }
     }
 

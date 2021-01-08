@@ -7,6 +7,6 @@ import lombok.Setter;
 @Setter
 public class ListeningExerciseResponse extends ExerciseDTO {
 
-    private byte[] sound;
+    private String encodedSound;
 
 }

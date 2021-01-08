@@ -16,7 +16,7 @@ import {
 
 export interface ITranslatorProps extends StateProps, DispatchProps {}
 export interface ITranslatorStates {
-  text: string;
+  inputText: string;
   fromto: TranslateKindsEnum;
 }
 
@@ -24,13 +24,13 @@ class Translator extends Component<ITranslatorProps, ITranslatorStates> {
   constructor(props) {
     super(props);
     this.state = {
-      text: "",
-      fromto: TranslateKindsEnum.PL_EN,
+      inputText: "",
+      fromto: TranslateKindsEnum.EN_PL,
     };
   }
 
   handleTextChange(event) {
-    this.setState({ text: event.target.value });
+    this.setState({ inputText: event.target.value });
   }
 
   handleLangChange(event) {
@@ -38,23 +38,27 @@ class Translator extends Component<ITranslatorProps, ITranslatorStates> {
   }
 
   sendTranslate() {
-    if (this.state.fromto === TranslateKindsEnum.PL_EN) {
-      this.props.translateText(
-        LanguageCodesEnum.PL,
-        LanguageCodesEnum.EN,
-        this.state.text
-      );
-    } else {
-      this.props.translateText(
-        LanguageCodesEnum.EN,
-        LanguageCodesEnum.PL,
-        this.state.text
-      );
-    }
+    this.props.translateText(
+      this.getFromLanguage(),
+      this.getToLanguage(),
+      this.state.inputText
+    );
+  }
+
+  getFromLanguage() {
+    return this.state.fromto === TranslateKindsEnum.PL_EN
+      ? LanguageCodesEnum.PL
+      : LanguageCodesEnum.EN;
+  }
+
+  getToLanguage() {
+    return this.state.fromto === TranslateKindsEnum.PL_EN
+      ? LanguageCodesEnum.EN
+      : LanguageCodesEnum.PL;
   }
 
   sendSynethetize() {
-    this.props.translateSynethesize(this.props.output);
+    this.props.translateSynethesize(this.props.output, this.getToLanguage());
   }
 
   componentDidUpdate(prevProps) {
@@ -63,56 +67,74 @@ class Translator extends Component<ITranslatorProps, ITranslatorStates> {
       prevProps.textToTranslate !== this.props.textToTranslate
     ) {
       this.setState({
-        text: this.props.textToTranslate,
+        inputText: this.props.textToTranslate,
       });
     }
   }
 
   render() {
-    const { output, sound, textToTranslate } = this.props;
+    const { output, sound } = this.props;
     return (
       <Container>
         <Row>
           <Col>
-            <Form.Group controlId="exampleForm.ControlTextarea1">
+            <Form.Group>
               <Form.Label>
-                Please input your text for translation below:
+                <b>Please input text for translation</b>
               </Form.Label>
               <Form.Control
                 as="textarea"
                 rows={3}
                 onChange={this.handleTextChange.bind(this)}
-                value={this.state.text}
+                value={this.state.inputText}
               />
             </Form.Group>
-            <Record
-              onStop={(blobUrl) => this.props.getTextFromSound(blobUrl)}
-            />
-            <Form.Group controlId="exampleForm.ControlSelect1">
-              <Form.Label>Language</Form.Label>
-              <Form.Control
-                as="select"
-                onChange={this.handleLangChange.bind(this)}
-                defaultValue={this.props.textToTranslate}
-              >
-                <option value={TranslateKindsEnum.PL_EN}>
-                  Polish -{">"} English
-                </option>
-                <option value={TranslateKindsEnum.EN_PL}>
-                  English -{">"} Polish
-                </option>
-              </Form.Control>
-            </Form.Group>
-            <Button
-              variant="primary"
-              onClick={this.sendTranslate.bind(this)}
-              disabled={!this.state.text}
-            >
-              Translate
-            </Button>
+            <Form.Row>
+              <Col>
+                <div hidden={this.state.fromto === TranslateKindsEnum.PL_EN}>
+                  <Record
+                    onStop={async (blobUrl) => {
+                      const audioBlob = await fetch(blobUrl).then((r) =>
+                        r.blob()
+                      );
+                      const sound = new File([audioBlob], "audiofile.mp3", {
+                        type: "audio/mp3",
+                      });
+                      this.props.getTextFromSound(sound);
+                    }}
+                  />
+                  <br />
+                </div>
+              </Col>
+              <Col sm={8}>
+                <Form.Group>
+                  <Form.Control
+                    as="select"
+                    onChange={this.handleLangChange.bind(this)}
+                    defaultValue={this.state.fromto}
+                  >
+                    <option value={TranslateKindsEnum.PL_EN}>
+                      Polish -{">"} English
+                    </option>
+                    <option value={TranslateKindsEnum.EN_PL}>
+                      English -{">"} Polish
+                    </option>
+                  </Form.Control>
+                </Form.Group>
+              </Col>
+              <Col>
+                <Button
+                  variant="primary"
+                  onClick={this.sendTranslate.bind(this)}
+                  disabled={!this.state.inputText}
+                >
+                  Translate
+                </Button>
+              </Col>
+            </Form.Row>
           </Col>
           <Col>
-            Output:
+            <b>Output</b>
             <p>{output}</p>
             <div hidden={!output}>
               {sound ? (
@@ -125,7 +147,7 @@ class Translator extends Component<ITranslatorProps, ITranslatorStates> {
                 <Button
                   variant="primary"
                   onClick={this.sendSynethetize.bind(this)}
-                  disabled={!this.state.text}
+                  disabled={!this.state.inputText}
                 >
                   <FontAwesomeIcon icon={faVolumeUp} />
                 </Button>
