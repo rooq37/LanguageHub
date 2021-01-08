@@ -13,7 +13,6 @@ const Record = ({ onStop }) => {
 
   return (
     <div>
-      <p>{status}</p>
       {status === "recording" ? (
         <Button variant="outline-primary" onClick={stopRecording}>
           <FontAwesomeIcon className="text-danger" icon={faMicrophone} />
