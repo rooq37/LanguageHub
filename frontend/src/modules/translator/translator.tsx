@@ -86,7 +86,13 @@ class Translator extends Component<ITranslatorProps, ITranslatorStates> {
               />
             </Form.Group>
             <Record
-              onStop={(blobUrl) => this.props.getTextFromSound(blobUrl)}
+              onStop={async (blobUrl) => {
+                const audioBlob = await fetch(blobUrl).then((r) => r.blob());
+                const sound = new File([audioBlob], "audiofile.mp3", {
+                  type: "audio/mp3",
+                });
+                this.props.getTextFromSound(sound);
+              }}
             />
             <Form.Group controlId="exampleForm.ControlSelect1">
               <Form.Label>Language</Form.Label>
