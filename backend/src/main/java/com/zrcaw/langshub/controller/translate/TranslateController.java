@@ -33,8 +33,10 @@ public class TranslateController {
     }
 
     @PostMapping("/sound")
-    public ResponseEntity<String> transcriptSound(@RequestBody String file) {
-        return ResponseEntity.ok(transcribeService.transcribeSound(file, "en-US"));
+    public ResponseEntity<String> transcriptSound(
+            @RequestBody String file,
+            @RequestParam(name = "language", required = false, defaultValue = "en-US") String language) {
+        return ResponseEntity.ok(transcribeService.transcribeSound(file, language));
     }
 
     @GetMapping(value = "/synthesize" + "/{text}")

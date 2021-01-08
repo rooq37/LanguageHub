@@ -32,6 +32,10 @@ public class S3Service {
         createBucket();
     }
 
+    public String getBucketName() {
+        return bucketName;
+    }
+
     public void createBucket() {
         if(isBucketCreated(bucketName))
             return;

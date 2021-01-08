@@ -1,5 +1,8 @@
 package com.zrcaw.langshub.service.transcribe;
 
+import com.google.gson.Gson;
+import com.zrcaw.langshub.model.transcribe.AmazonTranscription;
+import com.zrcaw.langshub.model.transcribe.Transcript;
 import com.zrcaw.langshub.service.s3.S3Service;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.core.sync.RequestBody;
@@ -8,12 +11,10 @@ import software.amazon.awssdk.services.transcribe.TranscribeClient;
 import software.amazon.awssdk.services.transcribe.model.*;
 
 import javax.annotation.PostConstruct;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.TargetDataLine;
-import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
+import java.util.stream.Collectors;
 
 @Service
 public class TranscribeService {
@@ -33,32 +34,22 @@ public class TranscribeService {
     }
 
     public String transcribeSound(String sound, String language) {
-        System.out.println("TRANSKRYPCJA ROZPOCZENTA");
-        System.out.println(sound);
         byte[] bytes = Base64.getDecoder().decode(sound);
         String key = generateKey();
+        String keyTranscribed = generateResultKey(key);
         s3Service.uploadObject(key, RequestBody.fromBytes(bytes));
 
-        String inputUrl = s3Service.getObjectUri(key);
-        System.out.println("INPUT URL: " + inputUrl);
-
-        Media media = Media.builder()
-                .mediaFileUri(s3Service.getObjectUri(key))
-                .build();
-
-        StartTranscriptionJobRequest request = StartTranscriptionJobRequest.builder()
-                .media(media)
-                .languageCode(language)
-                .transcriptionJobName(key)
-                .mediaFormat("mp3")
-                .build();
+        StartTranscriptionJobRequest request = getTranscriptionJobRequest(key, keyTranscribed, language);
 
         transcribeClient.startTranscriptionJob(request);
+        waitUntilTranscriptionIsDone(key);
 
-        String uri = getTranscriptFileUri(key);
+        String transcription = getTranscription(keyTranscribed);
 
+        s3Service.deleteObject(key);
+        s3Service.deleteObject(generateKey());
 
-        return uri;
+        return transcription;
     }
 
     private String generateKey() {
@@ -66,30 +57,58 @@ public class TranscribeService {
         return "transcription-" + simpleDateFormat.format(new Date());
     }
 
-    private String getTranscriptFileUri(String key) {
+    private String generateResultKey(String key) {
+        return key + "-transcribed";
+    }
+
+    private StartTranscriptionJobRequest getTranscriptionJobRequest(String key,
+                                                                    String keyTranscribed,
+                                                                    String language) {
+        Media media = Media.builder()
+                .mediaFileUri(s3Service.getObjectUri(key))
+                .build();
+
+        return StartTranscriptionJobRequest.builder()
+                .media(media)
+                .languageCode(language)
+                .transcriptionJobName(key)
+                .mediaFormat("mp3")
+                .outputBucketName(s3Service.getBucketName())
+                .outputKey(keyTranscribed)
+                .build();
+    }
+
+    private boolean waitUntilTranscriptionIsDone(String key) {
         GetTranscriptionJobRequest jobRequest = GetTranscriptionJobRequest.builder()
                 .transcriptionJobName(key)
                 .build();
 
         TranscriptionJob transcriptionJob;
 
-        while( true ){
+        while (true) {
             transcriptionJob = transcribeClient.getTranscriptionJob(jobRequest).transcriptionJob();
-            if( transcriptionJob.transcriptionJobStatus().equals(TranscriptionJobStatus.COMPLETED) ){
-                return transcriptionJob.transcript().transcriptFileUri();
-            }else if( transcriptionJob.transcriptionJobStatus().equals(TranscriptionJobStatus.FAILED) ){
+            if (transcriptionJob.transcriptionJobStatus().equals(TranscriptionJobStatus.COMPLETED)) {
+                return true;
+            } else if (transcriptionJob.transcriptionJobStatus().equals(TranscriptionJobStatus.FAILED)) {
                 System.out.println(transcriptionJob.failureReason());
-                return "FAILURE";
+                return false;
             }
-            wait(1);
+            wait(100);
         }
     }
 
-    private void wait(int seconds) {
+    private void wait(int milliseconds) {
         try {
-            Thread.sleep(seconds * 1000);
+            Thread.sleep(milliseconds);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    private String getTranscription(String keyTranscribed) {
+        byte[] result = s3Service.downloadObject(keyTranscribed);
+        AmazonTranscription transcription = new Gson().fromJson(new String(result), AmazonTranscription.class);
+        return transcription.getResults().getTranscripts().stream().map(Transcript::getTranscript)
+                .collect(Collectors.joining(" "));
     }
 }
