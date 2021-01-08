@@ -1,8 +1,10 @@
 package com.zrcaw.langshub.dynamodb_tables;
 
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.zrcaw.langshub.model.exercise.Exercise;
+import com.zrcaw.langshub.model.pupil.Pupil;
 import com.zrcaw.langshub.service.utils.BeanUtil;
 import org.springframework.util.ResourceUtils;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
@@ -15,23 +17,23 @@ import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.util.List;
 
-public class ExerciseTable extends TablesService {
+public class PupilTable extends TablesService {
 
-    private String tableName = "Exercises";
-    private String samplesFile = "classpath:sample-data/exercises.json";
+    private String tableName = "Pupils";
+    private String samplesFile = "classpath:sample-data/pupils.json";
     private DynamoDbEnhancedClient enhancedClient = DynamoDbEnhancedClient.builder().dynamoDbClient(ddb).build();
-    private DynamoDbTable<Exercise> exerciseTable = enhancedClient.table(tableName, TableSchema.fromBean(Exercise.class));
+    private DynamoDbTable<Pupil> pupilsTable = enhancedClient.table(tableName, TableSchema.fromBean(Pupil.class));
 
-    public void createExerciseTable() {
+    public void createPupilTable() {
         boolean dropTables = Boolean.parseBoolean(BeanUtil.getProperty("drop.tables"));
         boolean putSamples = Boolean.parseBoolean(BeanUtil.getProperty("put.samples"));
         if (isTableCreated(tableName)) {
             if (dropTables) {
                 deleteTable(tableName);
-                createTable(tableName, "author", "name");
+                createTable(tableName, "tutorName", "name");
             }
         } else
-            createTable(tableName, "author", "name");
+            createTable(tableName, "tutorName", "name");
         if (putSamples)
             putSampleData();
     }
@@ -41,10 +43,10 @@ public class ExerciseTable extends TablesService {
             File file = ResourceUtils.getFile(samplesFile);
             InputStream is = new FileInputStream(file);
             String json = new String(is.readAllBytes());
-            Type listType = new TypeToken<List<Exercise>>() {
+            Type listType = new TypeToken<List<Pupil>>() {
             }.getType();
-            List<Exercise> exercises = new Gson().fromJson(json, listType);
-            exercises.forEach(exercise -> exerciseTable.putItem(exercise));
+            List<Pupil> pupils = new Gson().fromJson(json, listType);
+            pupils.forEach(pupil -> pupilsTable.putItem(pupil));
         } catch (Exception e) {
             e.printStackTrace();
         }

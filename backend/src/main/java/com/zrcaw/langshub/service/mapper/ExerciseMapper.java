@@ -1,7 +1,8 @@
 package com.zrcaw.langshub.service.mapper;
 
 import com.zrcaw.langshub.dto.exercise.*;
-import com.zrcaw.langshub.model.*;
+import com.zrcaw.langshub.model.exercise.Exercise;
+import com.zrcaw.langshub.model.exercise.ExerciseType;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 

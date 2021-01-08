@@ -1,4 +1,4 @@
-package com.zrcaw.langshub.model;
+package com.zrcaw.langshub.model.exercise;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

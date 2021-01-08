@@ -1,4 +1,4 @@
-package com.zrcaw.langshub.model;
+package com.zrcaw.langshub.model.exercise;
 
 public enum ExerciseType {
 

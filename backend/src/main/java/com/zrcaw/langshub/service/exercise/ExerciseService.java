@@ -1,6 +1,7 @@
 package com.zrcaw.langshub.service.exercise;
 
-import com.zrcaw.langshub.dao.ExerciseDaoImpl;
+import com.zrcaw.langshub.dao.exercise.ExerciseDao;
+import com.zrcaw.langshub.dao.exercise.ExerciseDaoImpl;
 import com.zrcaw.langshub.dto.exercise.ExerciseDTO;
 import com.zrcaw.langshub.dto.exercise.ListeningExerciseRequest;
 import com.zrcaw.langshub.dto.exercise.ListeningExerciseResponse;
@@ -8,8 +9,8 @@ import com.zrcaw.langshub.dto.message.MessageDTO;
 import com.zrcaw.langshub.dto.translate.LanguageCode;
 import com.zrcaw.langshub.exception.exercise.ExerciseAlreadyExistsException;
 import com.zrcaw.langshub.exception.exercise.ExerciseNotFoundException;
-import com.zrcaw.langshub.model.Exercise;
-import com.zrcaw.langshub.model.ExerciseType;
+import com.zrcaw.langshub.model.exercise.Exercise;
+import com.zrcaw.langshub.model.exercise.ExerciseType;
 import com.zrcaw.langshub.service.mapper.ExerciseMapper;
 import com.zrcaw.langshub.service.polly.PollyService;
 import com.zrcaw.langshub.service.s3.S3Service;
@@ -23,7 +24,7 @@ import java.util.stream.Collectors;
 @Service
 public class ExerciseService {
 
-    private final ExerciseDaoImpl exerciseDao;
+    private final ExerciseDao exerciseDao;
     private final ExerciseMapper exerciseMapper;
     private final PollyService pollyService;
     private final S3Service s3Service;
