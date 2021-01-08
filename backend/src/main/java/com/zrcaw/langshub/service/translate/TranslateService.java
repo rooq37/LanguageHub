@@ -17,12 +17,10 @@ public class TranslateService {
     private static final Region region = Region.US_EAST_1;
 
     private TranslateClient translateClient;
-    private TranscribeClient transcribeClient;
 
     @PostConstruct
     public void init() {
         translateClient = TranslateClient.builder().region(region).build();
-        transcribeClient = TranscribeClient.builder().region(region).build();
     }
 
     public TranslateResponse translateText(TranslateRequest request) {

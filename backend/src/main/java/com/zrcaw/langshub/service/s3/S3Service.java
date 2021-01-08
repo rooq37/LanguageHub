@@ -18,6 +18,8 @@ import java.util.stream.Collectors;
 @Service
 public class S3Service {
 
+    private static final String S3_URI = "s3://${bucketName}${fileName}";
+
     @Value("${langshub.bucketname}")
     private String bucketName;
 
@@ -62,6 +64,19 @@ public class S3Service {
             e.printStackTrace();
         }
         return bytes;
+    }
+
+    public String getObjectUri(String key) {
+        GetUrlRequest request = GetUrlRequest.builder()
+                .bucket(bucketName)
+                .key(key)
+                .build();
+
+        String uri = S3_URI
+                .replace("${bucketName}", bucketName)
+                .replace("${fileName}", s3Client.utilities().getUrl(request).getPath());
+
+        return uri;
     }
 
     public void deleteObject(String key) {

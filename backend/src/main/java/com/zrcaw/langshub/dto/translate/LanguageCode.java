@@ -16,4 +16,11 @@ public enum LanguageCode {
     public String getValue() {
         return value;
     }
+
+    public static LanguageCode ofValue(String value){
+        for(LanguageCode lc : LanguageCode.values()){
+            if(value.equals(lc.value)) return lc;
+        }
+        return null;
+    }
 }

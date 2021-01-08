@@ -10,6 +10,7 @@ import software.amazon.awssdk.services.polly.model.VoiceId;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
+import java.util.Base64;
 
 @Service
 public class PollyService {
@@ -51,5 +52,11 @@ public class PollyService {
             e.printStackTrace();
         }
         return bytes;
+    }
+
+    public String synthesizeEncoded(String text, String language) {
+        LanguageCode languageCode = LanguageCode.ofValue(language);
+        byte[] bytes = synthesize(text, languageCode);
+        return Base64.getEncoder().encodeToString(bytes);
     }
 }
