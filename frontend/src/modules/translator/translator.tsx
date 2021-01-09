@@ -12,6 +12,7 @@ import {
   translateText,
   translateSynethesize,
   getTextFromSound,
+  reset,
 } from "../../store/translate/actions";
 
 export interface ITranslatorProps extends StateProps, DispatchProps {}
@@ -27,6 +28,10 @@ class Translator extends Component<ITranslatorProps, ITranslatorStates> {
       inputText: "",
       fromto: TranslateKindsEnum.EN_PL,
     };
+  }
+
+  componentDidMount() {
+    this.props.reset();
   }
 
   handleTextChange(event) {
@@ -163,6 +168,7 @@ const mapDispatchToProps = {
   translateText,
   translateSynethesize,
   getTextFromSound,
+  reset,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;
