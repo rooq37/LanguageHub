@@ -9,13 +9,15 @@ import SpeakingExerciseForm from "./speaking-exercise-form/speaking-exercise-for
 
 export interface IExerciseFormProps {
   exerciseType: ExerciseTypesEnum;
-  exercise: IExercise;
+  handleSubmit;
 }
 class ExerciseForm extends Component<IExerciseFormProps> {
-  renderSwitch(exerciseType, exercise) {
+  renderSwitch(exerciseType) {
     switch (exerciseType) {
       case ExerciseTypesEnum.CLOSED_QUESTION:
-        return <ClosedQuestionExerciseForm exercise={exercise} />;
+        return (
+          <ClosedQuestionExerciseForm handleSubmit={this.props.handleSubmit} />
+        );
       case ExerciseTypesEnum.LISTENING:
         return <ListeningExerciseForm />;
       case ExerciseTypesEnum.OPEN_QUESTION:
@@ -28,8 +30,8 @@ class ExerciseForm extends Component<IExerciseFormProps> {
   }
 
   render() {
-    const { exerciseType, exercise } = this.props;
-    return this.renderSwitch(exerciseType, exercise);
+    const { exerciseType } = this.props;
+    return this.renderSwitch(exerciseType);
   }
 }
 
