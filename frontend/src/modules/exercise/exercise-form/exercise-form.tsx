@@ -50,12 +50,7 @@ class ExerciseForm extends Component<IExerciseFormProps> {
   }
 
   render() {
-<<<<<<< HEAD
     return this.renderSwitch();
-=======
-    const { exerciseType, exercise } = this.props;
-    return this.renderSwitch(exerciseType, exercise);
->>>>>>> 891d686 (tmp)
   }
 }
 
