@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faVolumeUp } from "@fortawesome/free-solid-svg-icons";
 import React from "react";
 import { Component } from "react";
-import { Button, Col, Container, Form, Row } from "react-bootstrap";
+import { Button, Col, Form, Row } from "react-bootstrap";
 import { connect } from "react-redux";
 import { LanguageCodesEnum } from "../../enums/language-codes.enum";
 import { TranslateKindsEnum } from "../../enums/translate-kinds.enum";
@@ -75,87 +75,81 @@ class Translator extends Component<ITranslatorProps, ITranslatorStates> {
   render() {
     const { output, sound } = this.props;
     return (
-      <Container>
-        <Row>
-          <Col>
-            <Form.Group>
-              <Form.Label>
-                <b>Please input text for translation</b>
-              </Form.Label>
-              <Form.Control
-                as="textarea"
-                rows={3}
-                onChange={this.handleTextChange.bind(this)}
-                value={this.state.inputText}
-              />
-            </Form.Group>
-            <Form.Row>
-              <Col>
-                <div hidden={this.state.fromto === TranslateKindsEnum.PL_EN}>
-                  <Record
-                    onStop={async (blobUrl) => {
-                      const audioBlob = await fetch(blobUrl).then((r) =>
-                        r.blob()
-                      );
-                      const sound = new File([audioBlob], "audiofile.mp3", {
-                        type: "audio/mp3",
-                      });
-                      this.props.getTextFromSound(sound);
-                    }}
-                  />
-                  <br />
-                </div>
-              </Col>
-              <Col sm={8}>
-                <Form.Group>
-                  <Form.Control
-                    as="select"
-                    onChange={this.handleLangChange.bind(this)}
-                    defaultValue={this.state.fromto}
-                  >
-                    <option value={TranslateKindsEnum.PL_EN}>
-                      Polish -{">"} English
-                    </option>
-                    <option value={TranslateKindsEnum.EN_PL}>
-                      English -{">"} Polish
-                    </option>
-                  </Form.Control>
-                </Form.Group>
-              </Col>
-              <Col>
-                <Button
-                  variant="primary"
-                  onClick={this.sendTranslate.bind(this)}
-                  disabled={!this.state.inputText}
-                >
-                  Translate
-                </Button>
-              </Col>
-            </Form.Row>
-          </Col>
-          <Col>
-            <b>Output</b>
-            <p>{output}</p>
-            <div hidden={!output}>
-              {sound ? (
-                <audio
-                  src={"data:audio/mp3;base64," + sound}
-                  controls
-                  autoPlay
+      <Row>
+        <Col>
+          <Form.Group>
+            <Form.Label>
+              <b>Please input text for translation</b>
+            </Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              onChange={this.handleTextChange.bind(this)}
+              value={this.state.inputText}
+            />
+          </Form.Group>
+          <Form.Row>
+            <Col>
+              <div hidden={this.state.fromto === TranslateKindsEnum.PL_EN}>
+                <Record
+                  onStop={async (blobUrl) => {
+                    const audioBlob = await fetch(blobUrl).then((r) =>
+                      r.blob()
+                    );
+                    const sound = new File([audioBlob], "audiofile.mp3", {
+                      type: "audio/mp3",
+                    });
+                    this.props.getTextFromSound(sound);
+                  }}
                 />
-              ) : (
-                <Button
-                  variant="primary"
-                  onClick={this.sendSynethetize.bind(this)}
-                  disabled={!this.state.inputText}
+                <br />
+              </div>
+            </Col>
+            <Col sm={8}>
+              <Form.Group>
+                <Form.Control
+                  as="select"
+                  onChange={this.handleLangChange.bind(this)}
+                  defaultValue={this.state.fromto}
                 >
-                  <FontAwesomeIcon icon={faVolumeUp} />
-                </Button>
-              )}
-            </div>
-          </Col>
-        </Row>
-      </Container>
+                  <option value={TranslateKindsEnum.PL_EN}>
+                    Polish -{">"} English
+                  </option>
+                  <option value={TranslateKindsEnum.EN_PL}>
+                    English -{">"} Polish
+                  </option>
+                </Form.Control>
+              </Form.Group>
+            </Col>
+            <Col>
+              <Button
+                variant="primary"
+                onClick={this.sendTranslate.bind(this)}
+                disabled={!this.state.inputText}
+              >
+                Translate
+              </Button>
+            </Col>
+          </Form.Row>
+        </Col>
+        <Col>
+          <b>Output</b>
+          <p>{output}</p>
+          <div hidden={!output}>
+            {sound ? (
+              <audio src={"data:audio/mp3;base64," + sound} controls autoPlay />
+            ) : (
+              <Button
+                variant="primary"
+                onClick={this.sendSynethetize.bind(this)}
+                disabled={!this.state.inputText}
+              >
+                <FontAwesomeIcon icon={faVolumeUp} />
+              </Button>
+            )}
+          </div>
+        </Col>
+      </Row>
     );
   }
 }
