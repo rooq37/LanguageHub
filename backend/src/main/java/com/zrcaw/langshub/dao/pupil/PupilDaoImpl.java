@@ -23,6 +23,11 @@ public class PupilDaoImpl implements PupilDao {
 
 
     @Override
+    public void updatePupil(Pupil pupil) {
+        pupilTable.putItem(pupil);
+    }
+
+    @Override
     public void assignGroup(String tutorName, String pupilName, String groupName) {
         Key key = Key.builder().partitionValue(tutorName).sortValue(pupilName).build();
         Pupil pupil = pupilTable.getItem(r -> r.key(key));
@@ -61,8 +66,8 @@ public class PupilDaoImpl implements PupilDao {
     }
 
     @Override
-    public Optional<Pupil> getPupil(String tutorName, String pupilName) {
-        Key key = Key.builder().partitionValue(tutorName).sortValue(pupilName).build();
+    public Optional<Pupil> getPupil(String pupilName) {
+        Key key = Key.builder().partitionValue(pupilName).build();
         Pupil pupil = pupilTable.getItem(r -> r.key(key));
         return (pupil == null) ? Optional.empty() : Optional.of(pupil);
     }

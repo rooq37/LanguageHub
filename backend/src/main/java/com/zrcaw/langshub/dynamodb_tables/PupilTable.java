@@ -3,7 +3,6 @@ package com.zrcaw.langshub.dynamodb_tables;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.zrcaw.langshub.model.exercise.Exercise;
 import com.zrcaw.langshub.model.pupil.Pupil;
 import com.zrcaw.langshub.service.utils.BeanUtil;
 import org.springframework.util.ResourceUtils;
@@ -30,10 +29,10 @@ public class PupilTable extends TablesService {
         if (isTableCreated(tableName)) {
             if (dropTables) {
                 deleteTable(tableName);
-                createTable(tableName, "tutorName", "name");
+                createTable(tableName, "name");
             }
         } else
-            createTable(tableName, "tutorName", "name");
+            createTable(tableName, "name");
         if (putSamples)
             putSampleData();
     }

@@ -18,12 +18,12 @@ public class PupilController {
 
     @GetMapping
     public ResponseEntity getPupils(
-            @RequestParam(name = "tutor") String tutorName,
+            @RequestParam(name = "tutor", required = false, defaultValue = "") String tutorName,
             @RequestParam(name = "pupil", required = false, defaultValue = "") String pupilName) {
         if(pupilName.isEmpty()) {
             return ResponseEntity.ok(pupilService.getPupils(tutorName));
         }else {
-            return ResponseEntity.ok(pupilService.getPupil(tutorName, pupilName));
+            return ResponseEntity.ok(pupilService.getPupil(pupilName));
         }
     }
 

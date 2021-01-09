@@ -24,9 +24,9 @@ public class PupilService {
         this.pupilMapper = pupilMapper;
     }
 
-    public PupilDTO getPupil(String tutorName, String pupilName) {
-        Pupil pupil = pupilDao.getPupil(tutorName, pupilName)
-                .orElseThrow(() -> new PupilNotFoundException(tutorName, pupilName));
+    public PupilDTO getPupil(String pupilName) {
+        Pupil pupil = pupilDao.getPupil(pupilName)
+                .orElseThrow(() -> new PupilNotFoundException(pupilName));
         return pupilMapper.map(pupil);
     }
 

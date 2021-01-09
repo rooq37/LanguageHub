@@ -13,27 +13,26 @@ import java.util.List;
 @Setter
 public class Pupil {
 
-    private String tutorName;
     private String name;
+    private String tutorName;
     private List<String> exerciseGroups;
     private List<Solution> solutions;
 
     @DynamoDbPartitionKey
-    public String getTutorName() {
-        return tutorName;
-    }
-
-    public void setTutorName(String tutorName) {
-        this.tutorName = tutorName;
-    }
-
-    @DynamoDbSortKey
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getTutorName() {
+        return tutorName;
+    }
+
+    public void setTutorName(String tutorName) {
+        this.tutorName = tutorName;
     }
 
     public List<String> getExerciseGroups() {

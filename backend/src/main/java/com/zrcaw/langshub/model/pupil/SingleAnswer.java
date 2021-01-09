@@ -4,15 +4,12 @@ import lombok.Getter;
 import lombok.Setter;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 
-import java.util.List;
-
 @DynamoDbBean
 @Getter
 @Setter
-public class Solution {
+public class SingleAnswer {
 
-    private String exerciseName;
-    private String groupName;
-    private List<SingleAnswer> answers;
+    private String answer;
+    private boolean isCorrect;
 
 }

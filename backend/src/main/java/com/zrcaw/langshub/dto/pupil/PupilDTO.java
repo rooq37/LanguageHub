@@ -12,5 +12,6 @@ public class PupilDTO {
     private String tutorName;
     private String name;
     private List<String> exerciseGroups;
+    private List<SingleSolutionDTO> solutions;
 
 }
