@@ -58,8 +58,8 @@ export function deleteExercise(name: string, author: string) {
 
 export function assignToExercise(name: string, author: string, pupilsNames:string[]) {
   const body : AssignationsRequest =  {
-    tutorName: name,
-    exerciseName: author,
+    tutorName: author,
+    exerciseName: name,
     pupilsToAssign: pupilsNames
   }
   return function(dispatch){

@@ -28,17 +28,22 @@ class AssignExercise extends Component<IAssignExerciseProps> {
   handleSave() {
     const { selectedOption } = this.state;
     const { id, saveAssignation } = this.props;
-    let names = selectedOption.map((option) => option.value);
+    let names = selectedOption
+      ? selectedOption.map((option) => option.value)
+      : [];
     saveAssignation(id, names);
   }
 
   getPupilLabels = (pupils: IPupilInfo[]) => {
-    let names = pupils.map((pupil) => {
-      return {
-        value: pupil.pupilName,
-        label: pupil.pupilName,
-      };
-    });
+    let names = [];
+    if (pupils) {
+      names = pupils.map((pupil) => {
+        return {
+          value: pupil.pupilName,
+          label: pupil.pupilName,
+        };
+      });
+    }
     return names;
   };
 
