@@ -1,7 +1,7 @@
 [
   {
     "author": "John",
-    "name": "ex1",
+    "name": "The exercise number 1",
     "question": "Przetłumacz słowo pies.",
     "closedAnswers": [
       {
@@ -21,7 +21,7 @@
   },
   {
     "author": "John",
-    "name": "ex2",
+    "name": "The exercise number 2",
     "question": "Napisz po angielsku zdanie \"Kocham koty\".",
     "acceptableOpenAnswers": [
       "I love cats"
@@ -30,7 +30,7 @@
   },
   {
     "author": "John",
-    "name": "ex3",
+    "name": "The exercise number 3",
     "question": "Napisz po angielsku zdanie \"Jestem Marek\".",
     "acceptableOpenAnswers": [
       "I am Marek",
@@ -40,13 +40,13 @@
   },
   {
     "author": "John",
-    "name": "ex4",
+    "name": "The exercise number 4",
     "text": "My name is Andrzej and I come from Poland",
     "type": "ListeningExercise"
   },
   {
     "author": "John",
-    "name": "ex5",
+    "name": "The exercise number 5",
     "question": "Przetłumacz zdanie \"Urodziłem się w Polsce\".",
     "closedAnswers": [
       {
@@ -66,13 +66,13 @@
   },
   {
     "author": "John",
-    "name": "ex6",
+    "name": "The exercise number 6",
     "text": "I am Andrzej and I was born in Poland",
     "type": "SpeakingExercise"
   },
   {
     "author": "Lisa",
-    "name": "ex1",
+    "name": "The exercise number 1",
     "question": "Przetłumacz słowo lew.",
     "closedAnswers": [
       {
@@ -92,7 +92,7 @@
   },
   {
     "author": "Lisa",
-    "name": "ex2",
+    "name": "The exercise number 2",
     "question": "Napisz po angielsku zdanie \"Kocham psy\".",
     "acceptableOpenAnswers": [
       "I love dogs"
@@ -101,7 +101,7 @@
   },
   {
     "author": "Lisa",
-    "name": "ex3",
+    "name": "The exercise number 3",
     "question": "Napisz po angielsku zdanie \"Jestem Krzysztof\".",
     "acceptableOpenAnswers": [
       "I am Krzysztof",
@@ -111,13 +111,13 @@
   },
   {
     "author": "Lisa",
-    "name": "ex4",
+    "name": "The exercise number 4",
     "text": "My name is John and I come from England",
     "type": "ListeningExercise"
   },
   {
     "author": "Lisa",
-    "name": "ex5",
+    "name": "The exercise number 5",
     "question": "Przetłumacz zdanie \"Urodziłem się w Anglii\".",
     "closedAnswers": [
       {
@@ -137,7 +137,7 @@
   },
   {
     "author": "Lisa",
-    "name": "ex6",
+    "name": "The exercise number 6",
     "text": "I am John and I was born in England",
     "type": "SpeakingExercise"
   }

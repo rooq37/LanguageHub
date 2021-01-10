@@ -4,7 +4,7 @@
     "tutorName": "John",
     "assignedExercises": [
       {
-        "exerciseName": "ex1",
+        "exerciseName": "The exercise number 1",
         "answers": [
           {
             "answer": "Dog",
@@ -13,19 +13,19 @@
         ]
       },
       {
-        "exerciseName": "ex2"
+        "exerciseName": "The exercise number 2"
       },
       {
-        "exerciseName": "ex3"
+        "exerciseName": "The exercise number 3"
       },
       {
-        "exerciseName": "ex4"
+        "exerciseName": "The exercise number 4"
       },
       {
-        "exerciseName": "ex5"
+        "exerciseName": "The exercise number 5"
       },
       {
-        "exerciseName": "ex6",
+        "exerciseName": "The exercise number 6",
         "answers": [
           {
             "answer": "I am Andrzej and I was born in Poland",
@@ -40,7 +40,7 @@
     "tutorName": "John",
     "assignedExercises": [
       {
-        "exerciseName": "ex1",
+        "exerciseName": "The exercise number 1",
         "answers": [
           {
             "answer": "Lion",
@@ -49,10 +49,10 @@
         ]
       },
       {
-        "exerciseName": "ex2"
+        "exerciseName": "The exercise number 2"
       },
       {
-        "exerciseName": "ex3",
+        "exerciseName": "The exercise number 3",
         "answers": [
           {
             "answer": "Ich bin Marek",
@@ -61,7 +61,7 @@
         ]
       },
       {
-        "exerciseName": "ex4"
+        "exerciseName": "The exercise number 4"
       }
     ]
   },
@@ -70,7 +70,7 @@
     "tutorName": "Lisa",
     "assignedExercises": [
       {
-        "exerciseName": "ex1",
+        "exerciseName": "The exercise number 1",
         "answers": [
           {
             "answer": "Lion",
@@ -79,13 +79,13 @@
         ]
       },
       {
-        "exerciseName": "ex2"
+        "exerciseName": "The exercise number 2"
       },
       {
-        "exerciseName": "ex3"
+        "exerciseName": "The exercise number 3"
       },
       {
-        "exerciseName": "ex4",
+        "exerciseName": "The exercise number 4",
         "answers": [
           {
             "answer": "I'am Krzysztof",
