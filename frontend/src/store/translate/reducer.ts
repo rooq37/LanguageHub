@@ -20,6 +20,8 @@ export function translateReducer(state: ITranslateState = init, action): ITransl
         return Object.assign({}, state, {
             textToTranslate: action.payload.data
         });
+    }else if(action.type === ACTION_TYPES.RESET){
+        return state = init
     }
     return state;
 }
