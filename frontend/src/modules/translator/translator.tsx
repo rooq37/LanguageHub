@@ -12,6 +12,7 @@ import {
   translateText,
   translateSynethesize,
   getTextFromSound,
+  reset,
 } from "../../store/translate/actions";
 
 export interface ITranslatorProps extends StateProps, DispatchProps {}
@@ -27,6 +28,10 @@ class Translator extends Component<ITranslatorProps, ITranslatorStates> {
       inputText: "",
       fromto: TranslateKindsEnum.EN_PL,
     };
+  }
+
+  componentDidMount() {
+    this.props.reset();
   }
 
   handleTextChange(event) {
@@ -112,12 +117,11 @@ class Translator extends Component<ITranslatorProps, ITranslatorStates> {
                   onChange={this.handleLangChange.bind(this)}
                   defaultValue={this.state.fromto}
                 >
-                  <option value={TranslateKindsEnum.PL_EN}>
-                    Polish -{">"} English
-                  </option>
-                  <option value={TranslateKindsEnum.EN_PL}>
-                    English -{">"} Polish
-                  </option>
+                  {Object.keys(TranslateKindsEnum).map((key) => (
+                    <option key={key} value={TranslateKindsEnum[key]}>
+                      {TranslateKindsEnum[key]}
+                    </option>
+                  ))}
                 </Form.Control>
               </Form.Group>
             </Col>
@@ -164,6 +168,7 @@ const mapDispatchToProps = {
   translateText,
   translateSynethesize,
   getTextFromSound,
+  reset,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

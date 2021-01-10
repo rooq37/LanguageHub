@@ -23,6 +23,9 @@ class Navigation extends Component<RouteComponentProps> {
             <LinkContainer to="/translator" activeClassName="is-active">
               <Nav.Link>Translator</Nav.Link>
             </LinkContainer>
+            <LinkContainer to="/exercises" activeClassName="is-active">
+              <Nav.Link>Exercises</Nav.Link>
+            </LinkContainer>
             <LinkContainer to="/about" activeClassName="is-active">
               <Nav.Link>About</Nav.Link>
             </LinkContainer>

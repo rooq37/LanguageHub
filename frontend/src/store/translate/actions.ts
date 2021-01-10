@@ -37,4 +37,9 @@ export function getTextFromSound(sound: File){
       dispatch({type: ACTION_TYPES.GET_TEXT_FROM_SOUND, payload: json});
     })
   };
+  
+}
+
+export function reset() {
+  return {type: ACTION_TYPES.RESET};
 }
