@@ -35,6 +35,7 @@ class OpenQuestionExerciseForm extends Component<
     if (exercise) {
       this.setState({
         exercise: exercise,
+        openAnswers: exercise.acceptableOpenAnswers,
       });
     }
   }
