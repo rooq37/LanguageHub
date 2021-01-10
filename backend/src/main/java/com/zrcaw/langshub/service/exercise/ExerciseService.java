@@ -81,7 +81,7 @@ public class ExerciseService {
                 .orElseThrow(() -> new ExerciseNotFoundException(author, name));
 
         exerciseDao.delete(author, name);
-        if(exercise.getType().equals(ExerciseType.LISTENING_EXERCISE)) {
+        if(exercise.getType().equals(ExerciseType.ListeningExercise)) {
             String key = getKey(exercise.getAuthor(), exercise.getName());
             s3Service.deleteObject(key);
         }

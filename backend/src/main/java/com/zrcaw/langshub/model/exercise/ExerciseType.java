@@ -2,10 +2,10 @@ package com.zrcaw.langshub.model.exercise;
 
 public enum ExerciseType {
 
-    OPEN_QUESTION_EXERCISE("OpenQuestionExerciseDTO"),
-    CLOSED_QUESTION_EXERCISE("ClosedQuestionExerciseDTO"),
-    SPEAKING_EXERCISE("SpeakingExerciseDTO"),
-    LISTENING_EXERCISE("ListeningExerciseDTO");
+    OpenQuestionExercise("OpenQuestionExercise"),
+    ClosedQuestionExercise("ClosedQuestionExercise"),
+    SpeakingExercise("SpeakingExercise"),
+    ListeningExercise("ListeningExercise");
 
     private final String value;
 
@@ -19,4 +19,5 @@ public enum ExerciseType {
         }
         return null;
     }
+
 }

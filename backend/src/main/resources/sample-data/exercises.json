@@ -18,7 +18,7 @@
         "isCorrect": false
       }
     ],
-    "type": "CLOSED_QUESTION_EXERCISE"
+    "type": "ClosedQuestionExercise"
   },
   {
     "author": "John",
@@ -28,7 +28,7 @@
     "acceptableOpenAnswers": [
       "I love cats"
     ],
-    "type": "OPEN_QUESTION_EXERCISE"
+    "type": "OpenQuestionExercise"
   },
   {
     "author": "John",
@@ -39,14 +39,14 @@
       "I am Marek",
       "I'm Marek"
     ],
-    "type": "OPEN_QUESTION_EXERCISE"
+    "type": "OpenQuestionExercise"
   },
   {
     "author": "John",
     "name": "ex4",
     "groupName": "a1",
     "text": "My name is Andrzej and I come from Poland",
-    "type": "LISTENING_EXERCISE"
+    "type": "ListeningExercise"
   },
   {
     "author": "John",
@@ -67,14 +67,14 @@
         "isCorrect": false
       }
     ],
-    "type": "CLOSED_QUESTION_EXERCISE"
+    "type": "ClosedQuestionExercise"
   },
   {
     "author": "John",
     "name": "ex6",
     "groupName": "a2",
     "text": "I am Andrzej and I was born in Poland",
-    "type": "SPEAKING_EXERCISE"
+    "type": "SpeakingExercise"
   },
   {
     "author": "Lisa",
@@ -95,7 +95,7 @@
         "isCorrect": true
       }
     ],
-    "type": "CLOSED_QUESTION_EXERCISE"
+    "type": "ClosedQuestionExercise"
   },
   {
     "author": "Lisa",
@@ -105,7 +105,7 @@
     "acceptableOpenAnswers": [
       "I love dogs"
     ],
-    "type": "OPEN_QUESTION_EXERCISE"
+    "type": "OpenQuestionExercise"
   },
   {
     "author": "Lisa",
@@ -116,14 +116,14 @@
       "I am Krzysztof",
       "I'm Krzysztof"
     ],
-    "type": "OPEN_QUESTION_EXERCISE"
+    "type": "OpenQuestionExercise"
   },
   {
     "author": "Lisa",
     "name": "ex4",
     "groupName": "a1",
     "text": "My name is John and I come from England",
-    "type": "LISTENING_EXERCISE"
+    "type": "ListeningExercise"
   },
   {
     "author": "Lisa",
@@ -144,13 +144,13 @@
         "isCorrect": false
       }
     ],
-    "type": "CLOSED_QUESTION_EXERCISE"
+    "type": "ClosedQuestionExercise"
   },
   {
     "author": "Lisa",
     "name": "ex6",
     "groupName": "a2",
     "text": "I am John and I was born in England",
-    "type": "SPEAKING_EXERCISE"
+    "type": "SpeakingExercise"
   }
 ]

@@ -87,18 +87,18 @@ public class LearningService {
             SingleAnswer singleAnswer = new SingleAnswer();
             singleAnswer.setAnswer(answer);
             switch (exercise.getType()) {
-                case OPEN_QUESTION_EXERCISE:
+                case OpenQuestionExercise:
                     singleAnswer.setCorrect(exercise.getAcceptableOpenAnswers().contains(answer));
                     break;
-                case CLOSED_QUESTION_EXERCISE:
+                case ClosedQuestionExercise:
                     singleAnswer
                             .setCorrect(exercise.getClosedAnswers()
                                     .stream().filter(ClosedAnswer::isCorrect).map(ClosedAnswer::getAnswer)
                                     .collect(Collectors.toList())
                             .contains(answer));
                     break;
-                case LISTENING_EXERCISE:
-                case SPEAKING_EXERCISE:
+                case ListeningExercise:
+                case SpeakingExercise:
                     singleAnswer.setCorrect(exercise.getText().equals(answer));
                     break;
             }

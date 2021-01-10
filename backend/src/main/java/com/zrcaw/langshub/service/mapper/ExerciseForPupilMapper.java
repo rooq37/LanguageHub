@@ -16,13 +16,13 @@ public class ExerciseForPupilMapper {
 
     public ExerciseForPupilDTO map(Exercise exercise) {
         switch (exercise.getType()) {
-            case OPEN_QUESTION_EXERCISE:
+            case OpenQuestionExercise:
                 return modelMapper.map(exercise, OpenQuestionExerciseForPupilDTO.class);
-            case CLOSED_QUESTION_EXERCISE:
+            case ClosedQuestionExercise:
                 return modelMapper.map(exercise, ClosedQuestionExerciseForPupilDTO.class);
-            case LISTENING_EXERCISE:
+            case ListeningExercise:
                 return modelMapper.map(exercise, ListeningExerciseForPupilDTO.class);
-            case SPEAKING_EXERCISE:
+            case SpeakingExercise:
                 return modelMapper.map(exercise, SpeakingExerciseForPupilDTO.class);
         }
         return null;

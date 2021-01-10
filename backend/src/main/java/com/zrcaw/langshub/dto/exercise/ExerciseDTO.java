@@ -1,5 +1,6 @@
 package com.zrcaw.langshub.dto.exercise;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Getter;
@@ -7,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME)
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME,include = JsonTypeInfo.As.EXISTING_PROPERTY)
 @JsonSubTypes({
         @JsonSubTypes.Type(value = OpenQuestionExerciseDTO.class, name = "OpenQuestionExercise"),
         @JsonSubTypes.Type(value = ClosedQuestionExerciseDTO.class, name = "ClosedQuestionExercise"),
@@ -18,6 +19,8 @@ public abstract class ExerciseDTO {
 
     private String name;
     private String author;
-    private String groupName;
+
+    @JsonProperty("@type")
+    private String type;
 
 }
