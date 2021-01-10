@@ -11,6 +11,7 @@ import Login from "../login/login";
 import { Container } from "react-bootstrap";
 import ExercisesList from "../exercise/exercises.list";
 import CreateExercise from "../exercise/create-exercise";
+import Lesson from "../learning/lesson";
 
 class App extends Component {
   render() {
@@ -26,6 +27,7 @@ class App extends Component {
               <Route path="/exercises/new" component={CreateExercise} />
               <Route path="/about" component={About} />
               <Route path="/login" component={Login} />
+              <Route path="/lesson" component={Lesson} />
             </Switch>
           </Container>
         </div>
