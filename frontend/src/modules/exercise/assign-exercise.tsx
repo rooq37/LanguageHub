@@ -14,14 +14,50 @@ class AssignExercise extends Component<IAssignExerciseProps> {
   state = {
     selectedOption: null,
   };
-  handleChange = (selectedOption) => {
-    this.setState({ selectedOption });
+
+  styles = {
+    multiValue: (base, state) => {
+      return state.data.isFixed ? { ...base, backgroundColor: "gray" } : base;
+    },
+    multiValueLabel: (base, state) => {
+      return state.data.isFixed
+        ? { ...base, fontWeight: "bold", color: "white", paddingRight: 6 }
+        : base;
+    },
+    multiValueRemove: (base, state) => {
+      return state.data.isFixed ? { ...base, display: "none" } : base;
+    },
   };
+
+  orderOptions(values) {
+    return values
+      ? values.filter((v) => v.isFixed).concat(values.filter((v) => !v.isFixed))
+      : [];
+  }
+
+  onChange(selectedOption, { action, removedValue }) {
+    switch (action) {
+      case "remove-value":
+      case "pop-value":
+        if (removedValue.isFixed) {
+          return;
+        }
+        break;
+      case "clear":
+        selectedOption = this.getPupilLabels(this.props.pupils).filter(
+          (v) => v.isFixed
+        );
+        break;
+    }
+
+    selectedOption = this.orderOptions(selectedOption);
+    this.setState({ selectedOption: selectedOption });
+  }
 
   componentDidMount() {
     const { pupils } = this.props;
     this.setState({
-      selectedOption: this.getDefaultSelectedPupils(pupils),
+      selectedOption: this.orderOptions(this.getDefaultSelectedPupils(pupils)),
     });
   }
 
@@ -41,6 +77,7 @@ class AssignExercise extends Component<IAssignExerciseProps> {
         return {
           value: pupil.pupilName,
           label: pupil.pupilName,
+          isFixed: pupil.solved,
         };
       });
     }
@@ -60,9 +97,10 @@ class AssignExercise extends Component<IAssignExerciseProps> {
         <Col md={10}>
           {pupils ? (
             <Select
+              styles={this.styles}
               isMulti
               value={selectedOption}
-              onChange={this.handleChange}
+              onChange={this.onChange.bind(this)}
               options={this.getPupilLabels(pupils)}
             />
           ) : null}
