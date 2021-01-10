@@ -28,33 +28,6 @@ public class PupilDaoImpl implements PupilDao {
     }
 
     @Override
-    public void assignGroup(String tutorName, String pupilName, String groupName) {
-        Key key = Key.builder().partitionValue(tutorName).sortValue(pupilName).build();
-        Pupil pupil = pupilTable.getItem(r -> r.key(key));
-        if(pupil != null) {
-            if(pupil.getExerciseGroups() == null) {
-                pupil.setExerciseGroups(new ArrayList<>());
-            }
-            if(!pupil.getExerciseGroups().contains(groupName)){
-                pupil.getExerciseGroups().add(groupName);
-            }
-            pupilTable.putItem(pupil);
-        }
-    }
-
-    @Override
-    public void withdrawGroup(String tutorName, String pupilName, String groupName) {
-        Key key = Key.builder().partitionValue(tutorName).sortValue(pupilName).build();
-        Pupil pupil = pupilTable.getItem(r -> r.key(key));
-        if(pupil != null) {
-            if(pupil.getExerciseGroups() != null) {
-                pupil.getExerciseGroups().remove(groupName);
-            }
-            pupilTable.putItem(pupil);
-        }
-    }
-
-    @Override
     public List<Pupil> getAllPupils(String tutorName) {
         List<Pupil> pupils = new ArrayList<>();
         for (Pupil pupil : pupilTable.scan().items()) {

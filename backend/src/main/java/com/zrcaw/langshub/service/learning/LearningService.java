@@ -10,12 +10,13 @@ import com.zrcaw.langshub.dto.learning.SolutionDTO;
 import com.zrcaw.langshub.dto.message.MessageDTO;
 import com.zrcaw.langshub.exception.exercise.ExerciseNotFoundException;
 import com.zrcaw.langshub.exception.learning.ExerciseAlreadySolvedException;
+import com.zrcaw.langshub.exception.learning.ExerciseNotAssignedException;
 import com.zrcaw.langshub.exception.pupil.PupilNotFoundException;
 import com.zrcaw.langshub.model.exercise.ClosedAnswer;
 import com.zrcaw.langshub.model.exercise.Exercise;
+import com.zrcaw.langshub.model.pupil.AssignedExercise;
 import com.zrcaw.langshub.model.pupil.Pupil;
 import com.zrcaw.langshub.model.pupil.SingleAnswer;
-import com.zrcaw.langshub.model.pupil.Solution;
 import com.zrcaw.langshub.service.mapper.ExerciseForPupilMapper;
 import com.zrcaw.langshub.service.s3.S3Service;
 import org.springframework.stereotype.Service;
@@ -46,14 +47,13 @@ public class LearningService {
     public List<ExerciseForPupilDTO> getAssignedExercises(String pupilName) {
         Pupil pupil = pupilDao.getPupil(pupilName)
                 .orElseThrow(() -> new PupilNotFoundException(pupilName));
-        List<String> groups = pupil.getExerciseGroups();
-        List<String> solved = pupil.getSolutions().stream().map(Solution::getExerciseName).collect(Collectors.toList());
+        List<String> assignedExercises = pupil.getAssignedExercises()
+                .stream().map(AssignedExercise::getExerciseName).collect(Collectors.toList());
+
         List<Exercise> exercises = new ArrayList<>();
-        for(String group : groups){
-            for(Exercise exercise : exerciseDao.getGroup(pupil.getTutorName(), group)) {
-                if(!solved.contains(exercise.getName())) {
-                    exercises.add(exercise);
-                }
+        for(Exercise exercise : exerciseDao.getAllExercises(pupil.getTutorName())) {
+            if(assignedExercises.contains(exercise.getName())) {
+                exercises.add(exercise);
             }
         }
         List<ExerciseForPupilDTO> exerciseForPupilDTOS = exercises.stream().map(exerciseMapper::map)
@@ -68,16 +68,14 @@ public class LearningService {
         Exercise exercise = exerciseDao.getExercise(pupil.getTutorName(), solutionDTO.getExerciseName())
                 .orElseThrow(() -> new ExerciseNotFoundException(pupil.getTutorName(), solutionDTO.getExerciseName()));
 
-        if(pupil.getSolutions().stream().map(Solution::getExerciseName).collect(Collectors.toList())
-                .contains(solutionDTO.getExerciseName())) {
+        AssignedExercise assignedExercise = pupil.getAssignedExercises().stream().filter(x -> x.getExerciseName().equals(solutionDTO.getExerciseName()))
+                .findFirst().orElseThrow(() -> new ExerciseNotAssignedException(solutionDTO.getExerciseName()));
+
+        if(assignedExercise.getAnswers() != null)
             throw new ExerciseAlreadySolvedException(solutionDTO.getExerciseName());
-        } else {
-            Solution newSolution = new Solution();
-            newSolution.setExerciseName(exercise.getName());
-            newSolution.setGroupName(exercise.getGroupName());
-            newSolution.setAnswers(parseAnswers(solutionDTO.getAnswers(), exercise));
-            pupil.getSolutions().add(newSolution);
-        }
+
+        assignedExercise.setAnswers(parseAnswers(solutionDTO.getAnswers(), exercise));
+        pupilDao.updatePupil(pupil);
 
         return new MessageDTO(true, "The solution has been added successfully!");
     }
@@ -110,7 +108,12 @@ public class LearningService {
         if(dto instanceof ListeningExerciseForPupilDTO) {
             ListeningExerciseForPupilDTO response = (ListeningExerciseForPupilDTO) dto;
             String key = getKey(dto.getAuthor(), dto.getName());
-            String encodedString = Base64.getEncoder().encodeToString(s3Service.downloadObject(key));
+            String encodedString;
+            if(s3Service.getListOfObjects().contains(key)) {
+                encodedString = Base64.getEncoder().encodeToString(s3Service.downloadObject(key));
+            } else {
+                encodedString = "The sound file is missing!";
+            }
             response.setEncodedSound(encodedString);
         }
     }

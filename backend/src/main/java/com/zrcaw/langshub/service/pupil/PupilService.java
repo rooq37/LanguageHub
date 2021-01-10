@@ -3,8 +3,10 @@ package com.zrcaw.langshub.service.pupil;
 import com.zrcaw.langshub.dao.pupil.PupilDao;
 import com.zrcaw.langshub.dao.pupil.PupilDaoImpl;
 import com.zrcaw.langshub.dto.message.MessageDTO;
+import com.zrcaw.langshub.dto.pupil.PupilAssignRequest;
 import com.zrcaw.langshub.dto.pupil.PupilDTO;
 import com.zrcaw.langshub.exception.pupil.PupilNotFoundException;
+import com.zrcaw.langshub.model.pupil.AssignedExercise;
 import com.zrcaw.langshub.model.pupil.Pupil;
 import com.zrcaw.langshub.service.mapper.PupilMapper;
 import org.springframework.stereotype.Service;
@@ -34,15 +36,23 @@ public class PupilService {
         return pupilDao.getAllPupils(tutorName).stream().map(pupilMapper::map).collect(Collectors.toList());
     }
 
-    public MessageDTO assignGroup(String tutorName, String pupilName, String groupName) {
-        pupilDao.assignGroup(tutorName, pupilName, groupName);
-        return new MessageDTO(true,
-                "Assigning the group " + groupName +  " to the pupil " + pupilName + " was successful!");
-    }
-
-    public MessageDTO withdrawGroup(String tutorName, String pupilName, String groupName) {
-        pupilDao.withdrawGroup(tutorName, pupilName, groupName);
-        return new MessageDTO(true,
-                "Withdrawing the group " + groupName + " from the pupil " + pupilName + " was successful!");
+    public MessageDTO manageExerciseAssignations(PupilAssignRequest request) {
+        for(Pupil pupil : pupilDao.getAllPupils(request.getTutorName())) {
+            List<String> assignedExercises = pupil.getAssignedExercises().stream()
+                    .map(AssignedExercise::getExerciseName).collect(Collectors.toList());
+            if(request.getPupilsToAssign().contains(pupil.getName())) {
+                if(!assignedExercises.contains(request.getExerciseName())) {
+                    pupil.getAssignedExercises().add(new AssignedExercise(request.getExerciseName()));
+                }
+            } else {
+                if(assignedExercises.contains(request.getExerciseName())) {
+                    AssignedExercise toRemove = pupil.getAssignedExercises().stream()
+                            .filter(x -> x.getExerciseName().equals(request.getExerciseName())).findFirst().get();
+                    pupil.getAssignedExercises().remove(toRemove);
+                }
+            }
+            pupilDao.updatePupil(pupil);
+        }
+        return new MessageDTO(true, "Your pupils assignations have been updated!");
     }
 }

@@ -92,7 +92,7 @@ public class S3Service {
         s3Client.deleteObject(deleteObjectRequest);
     }
 
-    private List<String> getListOfObjects() {
+    public List<String> getListOfObjects() {
         ListObjectsRequest listObjects = ListObjectsRequest
                 .builder()
                 .bucket(bucketName)

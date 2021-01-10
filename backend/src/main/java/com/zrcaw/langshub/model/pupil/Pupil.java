@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
-import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbSortKey;
 
 import java.util.List;
 
@@ -15,8 +14,7 @@ public class Pupil {
 
     private String name;
     private String tutorName;
-    private List<String> exerciseGroups;
-    private List<Solution> solutions;
+    private List<AssignedExercise> assignedExercises;
 
     @DynamoDbPartitionKey
     public String getName() {
@@ -35,19 +33,11 @@ public class Pupil {
         this.tutorName = tutorName;
     }
 
-    public List<String> getExerciseGroups() {
-        return exerciseGroups;
+    public List<AssignedExercise> getAssignedExercises() {
+        return assignedExercises;
     }
 
-    public void setExerciseGroups(List<String> exerciseGroups) {
-        this.exerciseGroups = exerciseGroups;
-    }
-
-    public List<Solution> getSolutions() {
-        return solutions;
-    }
-
-    public void setSolutions(List<Solution> solutions) {
-        this.solutions = solutions;
+    public void setAssignedExercises(List<AssignedExercise> assignedExercises) {
+        this.assignedExercises = assignedExercises;
     }
 }

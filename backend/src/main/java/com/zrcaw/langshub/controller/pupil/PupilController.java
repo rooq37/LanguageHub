@@ -1,7 +1,7 @@
 package com.zrcaw.langshub.controller.pupil;
 
 import com.zrcaw.langshub.dto.message.MessageDTO;
-import com.zrcaw.langshub.dto.pupil.PupilGroupOperationDTO;
+import com.zrcaw.langshub.dto.pupil.PupilAssignRequest;
 import com.zrcaw.langshub.service.pupil.PupilService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,16 +27,9 @@ public class PupilController {
         }
     }
 
-    @PutMapping("/assign")
-    public ResponseEntity<MessageDTO> assignPupilToTheGroup(@RequestBody PupilGroupOperationDTO request) {
-        return ResponseEntity
-                .ok(pupilService.assignGroup(request.getTutorName(), request.getPupil(), request.getGroupName()));
-    }
-
-    @PutMapping("/withdraw")
-    public ResponseEntity<MessageDTO> withdrawPupilFromTheGroup(@RequestBody PupilGroupOperationDTO request) {
-        return ResponseEntity
-                .ok(pupilService.withdrawGroup(request.getTutorName(), request.getPupil(), request.getGroupName()));
+    @PutMapping("assignations")
+    public ResponseEntity<MessageDTO> manageExerciseAssignations(@RequestBody PupilAssignRequest request) {
+        return ResponseEntity.ok(pupilService.manageExerciseAssignations(request));
     }
 
 }

@@ -49,11 +49,6 @@ public class ExerciseService {
                 .collect(Collectors.toList());
     }
 
-    public List<ExerciseDTO> getGroup(String author, String groupName) {
-        return exerciseDao.getGroup(author, groupName).stream().map(exerciseMapper::map)
-                .collect(Collectors.toList());
-    }
-
     public MessageDTO createExercise(ExerciseDTO exerciseDTO) {
         if(exerciseDao.getExercise(exerciseDTO.getAuthor(), exerciseDTO.getName()).isPresent())
             throw new ExerciseAlreadyExistsException(exerciseDTO.getAuthor(), exerciseDTO.getName());

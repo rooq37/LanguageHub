@@ -38,27 +38,6 @@ public class ExerciseDaoImpl implements ExerciseDao {
         return exercises;
     }
 
-    public List<Exercise> getGroup(String author, String groupName) {
-        List<Exercise> group = new ArrayList<>();
-        for (Exercise exercise : exerciseTable.scan().items()) {
-            if(exercise.getAuthor().contains(author) && exercise.getGroupName().contains(groupName)){
-                group.add(exercise);
-            }
-        }
-        return group;
-    }
-
-    @Override
-    public List<String> getAllGroups(String author) {
-        Set<String> groups = new HashSet<>();
-        for (Exercise exercise : exerciseTable.scan().items()) {
-            if(exercise.getAuthor().contains(author)){
-                groups.add(exercise.getGroupName());
-            }
-        }
-        return new ArrayList<>(groups);
-    }
-
     @Override
     public void save(Exercise exercise) {
         exerciseTable.putItem(exercise);
