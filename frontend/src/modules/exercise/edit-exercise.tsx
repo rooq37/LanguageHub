@@ -42,8 +42,8 @@ class EditExercise extends Component<IEditExerciseProps> {
   }
 
   checkIfSuccess() {
-    const { infoResponse } = this.props;
-    if (infoResponse) {
+    const { infoResponse, redirect } = this.props;
+    if (infoResponse && redirect) {
       if (infoResponse.success) {
         FlashState.set("message", infoResponse.messageText);
         return <Redirect to="/exercises" />;
@@ -80,6 +80,7 @@ class EditExercise extends Component<IEditExerciseProps> {
 const mapStateToProps = ({ exercise }: IRootState) => ({
   infoResponse: exercise.infoResponse,
   exercise: exercise.exercise,
+  redirect: exercise.redirect,
 });
 
 const mapDispatchToProps = {
