@@ -21,7 +21,6 @@ import com.zrcaw.langshub.service.s3.S3Service;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.core.sync.RequestBody;
 
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -70,7 +69,8 @@ public class ExerciseService {
         if(exerciseDTO instanceof ListeningExerciseDTO) {
             createAndUploadSoundIfRequired(exerciseDTO);
         }
-        return new MessageDTO(true, "Pomyślnie utworzono zadanie!");
+        return new MessageDTO(true,
+                "The exercise with name " + exerciseDTO.getName() + " has been created successfully!");
     }
 
     public MessageDTO editExercise(ExerciseDTO exerciseDTO) {
@@ -81,7 +81,8 @@ public class ExerciseService {
         if(exerciseDTO instanceof ListeningExerciseDTO) {
             createAndUploadSoundIfRequired(exerciseDTO);
         }
-        return new MessageDTO(true, "Pomyślnie edytowano zadanie!");
+        return new MessageDTO(true,
+                "The exercise with name " + exerciseDTO.getName() + " has been updated successfully!");
     }
 
     public MessageDTO deleteExercise(String author, String name) {
@@ -93,7 +94,8 @@ public class ExerciseService {
             String key = getKey(exercise.getAuthor(), exercise.getName());
             s3Service.deleteObject(key);
         }
-        return new MessageDTO(true, "Pomyślnie usunięto zadanie!");
+        return new MessageDTO(true,
+                "The exercise with name " + name + " has been deleted successfully!");
     }
 
     private void createAndUploadSoundIfRequired(ExerciseDTO dto) {

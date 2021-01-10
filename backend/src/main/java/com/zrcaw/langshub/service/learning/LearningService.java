@@ -86,7 +86,8 @@ public class LearningService {
         assignedExercise.setAnswers(parseAnswers(solutionDTO.getAnswers(), exercise));
         pupilDao.updatePupil(pupil);
 
-        return new MessageDTO(true, "The solution has been added successfully!");
+        return new MessageDTO(true,
+                "The solution for exercise " + solutionDTO.getExerciseName() + " has been added successfully!");
     }
 
     private List<SingleAnswer> parseAnswers(List<String> newAnswers, Exercise exercise) {

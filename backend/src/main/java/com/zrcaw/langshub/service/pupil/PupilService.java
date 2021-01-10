@@ -53,6 +53,7 @@ public class PupilService {
             }
             pupilDao.updatePupil(pupil);
         }
-        return new MessageDTO(true, "Your pupils assignations have been updated!");
+        return new MessageDTO(true,
+                "Your pupils assignations for exercise " + request.getExerciseName() + " have been updated!");
     }
 }
