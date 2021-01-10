@@ -2,7 +2,7 @@ import { ACTION_TYPES,  IExerciseState } from './types';
 const init: IExerciseState = {
     exercises: [],
     exercise: null,
-    infoResponse: {}
+    infoResponse: null
 };
 
 export function exerciseReducer(state: IExerciseState = init, action): IExerciseState {
@@ -21,6 +21,19 @@ export function exerciseReducer(state: IExerciseState = init, action): IExercise
         return Object.assign({}, state, {
             infoResponse: action.payload.data,
         });
+    }
+    else if(action.type === ACTION_TYPES.UPDATE_EXERCISE){
+        return Object.assign({}, state, {
+            infoResponse: action.payload.data,
+        });
+    }
+    else if(action.type === ACTION_TYPES.DELETE_EXERCISE){
+        return Object.assign({}, state, {
+            infoResponse: action.payload.data,
+        });
+    }
+    else if(action.type === ACTION_TYPES.RESET){
+        return state = init
     }
     return state;
     

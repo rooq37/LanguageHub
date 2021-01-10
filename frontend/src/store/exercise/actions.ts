@@ -33,3 +33,28 @@ export function createExercise(exercise: IExercise) {
   };
 }
 
+export function updateExercise(exercise: IExercise) {
+  return function(dispatch){
+    return axios.put<InfoResponse>(`http://localhost:8080/api/exercises`,  exercise )
+    .then(json => {
+      dispatch({type: ACTION_TYPES.UPDATE_EXERCISE, payload: json});
+    }).catch(error => {
+      dispatch({type: ACTION_TYPES.UPDATE_EXERCISE, payload: error.response});
+  })
+  };
+}
+
+export function deleteExercise(name: string, author: string) {
+  return function(dispatch){
+    return axios.delete(`http://localhost:8080/api/exercises?author=` + author + `&name=` + name)
+    .then(json => {
+      dispatch({type: ACTION_TYPES.DELETE_EXERCISE, payload: json});
+    }).catch(error => {
+      dispatch({type: ACTION_TYPES.DELETE_EXERCISE, payload: error.response});
+  }) 
+  };
+}
+
+export function reset() {
+  return {type: ACTION_TYPES.RESET};
+}

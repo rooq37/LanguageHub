@@ -7,6 +7,8 @@ import { IRootState } from "../../store";
 import ExerciseForm from "./exercise-form/exercise-form";
 import { connect } from "react-redux";
 import { createExercise } from "../../store/exercise/actions";
+import { Redirect } from "react-router-dom";
+import FlashState from "../../flashstate";
 
 export interface ICreateExerciseStates {
   exerciseType: ExerciseTypesEnum;
@@ -31,20 +33,39 @@ class CreateExercise extends Component<
   }
 
   handleSubmit(exercise: IExercise) {
+    const loggedInUser = localStorage.getItem("user");
+    exercise.author = loggedInUser;
     this.props.createExercise(exercise);
+  }
+
+  checkIfSuccess() {
+    const { infoResponse } = this.props;
+    if (infoResponse) {
+      if (infoResponse.success) {
+        FlashState.set("message", infoResponse.messageText);
+        return <Redirect to="/exercises" />;
+      } else {
+        return (
+          <Alert variant="danger">
+            {infoResponse.messageText
+              ? infoResponse.messageText
+              : "Something went wrong."}
+          </Alert>
+        );
+      }
+    }
+    return null;
   }
 
   render() {
     const { exerciseType } = this.state;
-    const { infoResponse } = this.props;
     return (
       <React.Fragment>
-        {infoResponse ? (
-          <Alert variant={infoResponse.success ? "success" : "danger"}>
-            {infoResponse.messageText}
-          </Alert>
-        ) : null}
+        {this.checkIfSuccess()}
         <Form.Group>
+          <Form.Label>
+            <b>Choose exercise type:</b>
+          </Form.Label>
           <Form.Control
             as="select"
             onChange={this.handleExerciseTypeChange.bind(this)}

@@ -10,28 +10,47 @@ import SpeakingExerciseForm from "./speaking-exercise-form/speaking-exercise-for
 export interface IExerciseFormProps {
   exerciseType: ExerciseTypesEnum;
   handleSubmit;
+  exercise?: IExercise;
 }
 class ExerciseForm extends Component<IExerciseFormProps> {
-  renderSwitch(exerciseType) {
+  renderSwitch() {
+    const { exerciseType, handleSubmit, exercise } = this.props;
     switch (exerciseType) {
       case ExerciseTypesEnum.CLOSED_QUESTION:
         return (
-          <ClosedQuestionExerciseForm handleSubmit={this.props.handleSubmit} />
+          <ClosedQuestionExerciseForm
+            handleSubmit={handleSubmit}
+            exercise={exercise}
+          />
         );
       case ExerciseTypesEnum.LISTENING:
-        return <ListeningExerciseForm />;
+        return (
+          <ListeningExerciseForm
+            handleSubmit={handleSubmit}
+            exercise={exercise}
+          />
+        );
       case ExerciseTypesEnum.OPEN_QUESTION:
-        return <OpenQuestionExerciseForm />;
+        return (
+          <OpenQuestionExerciseForm
+            handleSubmit={handleSubmit}
+            exercise={exercise}
+          />
+        );
       case ExerciseTypesEnum.SPEAKING:
-        return <SpeakingExerciseForm />;
+        return (
+          <SpeakingExerciseForm
+            handleSubmit={handleSubmit}
+            exercise={exercise}
+          />
+        );
       default:
         return "Error while rendering form for exercise.";
     }
   }
 
   render() {
-    const { exerciseType } = this.props;
-    return this.renderSwitch(exerciseType);
+    return this.renderSwitch();
   }
 }
 

@@ -12,6 +12,7 @@ import { Container } from "react-bootstrap";
 import ExercisesList from "../exercise/exercises.list";
 import CreateExercise from "../exercise/create-exercise";
 import Lesson from "../learning/lesson";
+import EditExercise from "../exercise/edit-exercise";
 
 class App extends Component {
   render() {
@@ -25,6 +26,10 @@ class App extends Component {
               <Route path="/translator" component={Translator} />
               <Route exact path="/exercises" component={ExercisesList} />
               <Route path="/exercises/new" component={CreateExercise} />
+              <Route
+                path="/exercises/edit/:exerciseName"
+                component={EditExercise}
+              />
               <Route path="/about" component={About} />
               <Route path="/login" component={Login} />
               <Route path="/lesson" component={Lesson} />
