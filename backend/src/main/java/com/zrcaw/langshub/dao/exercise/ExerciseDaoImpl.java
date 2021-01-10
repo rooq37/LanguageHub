@@ -1,6 +1,6 @@
-package com.zrcaw.langshub.dao;
+package com.zrcaw.langshub.dao.exercise;
 
-import com.zrcaw.langshub.model.Exercise;
+import com.zrcaw.langshub.model.exercise.Exercise;
 import org.springframework.stereotype.Component;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbEnhancedClient;
 import software.amazon.awssdk.enhanced.dynamodb.DynamoDbTable;
@@ -9,9 +9,7 @@ import software.amazon.awssdk.enhanced.dynamodb.TableSchema;
 import software.amazon.awssdk.regions.Region;
 import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Component
 public class ExerciseDaoImpl implements ExerciseDao {
@@ -38,16 +36,6 @@ public class ExerciseDaoImpl implements ExerciseDao {
             }
         }
         return exercises;
-    }
-
-    public List<Exercise> getGroup(String author, String groupName) {
-        List<Exercise> group = new ArrayList<>();
-        for (Exercise exercise : exerciseTable.scan().items()) {
-            if(exercise.getAuthor().contains(author) && exercise.getGroupName().contains(groupName)){
-                group.add(exercise);
-            }
-        }
-        return group;
     }
 
     @Override

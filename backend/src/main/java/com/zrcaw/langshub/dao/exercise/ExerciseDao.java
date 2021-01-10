@@ -1,6 +1,6 @@
-package com.zrcaw.langshub.dao;
+package com.zrcaw.langshub.dao.exercise;
 
-import com.zrcaw.langshub.model.Exercise;
+import com.zrcaw.langshub.model.exercise.Exercise;
 
 import java.util.List;
 import java.util.Optional;

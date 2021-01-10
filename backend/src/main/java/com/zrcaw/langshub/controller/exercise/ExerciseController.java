@@ -19,12 +19,9 @@ public class ExerciseController {
     @GetMapping
     public ResponseEntity getExercise(
             @RequestParam(name = "author", required = true) String author,
-            @RequestParam(name = "name", required = false, defaultValue = "") String name,
-            @RequestParam(name = "groupName", required = false, defaultValue = "") String groupName) {
-        if(name.isEmpty() && groupName.isEmpty()) {
+            @RequestParam(name = "name", required = false, defaultValue = "") String name) {
+        if(name.isEmpty()) {
             return ResponseEntity.ok(exerciseService.getAllExercises(author));
-        } else if(name.isEmpty()) {
-            return ResponseEntity.ok(exerciseService.getGroup(author, groupName));
         } else {
             return ResponseEntity.ok(exerciseService.getExercise(author, name));
         }

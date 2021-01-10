@@ -5,7 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ListeningExerciseRequest extends ExerciseDTO {
+public class ListeningExerciseDTO extends ExerciseDTO {
 
     private String text;
 
