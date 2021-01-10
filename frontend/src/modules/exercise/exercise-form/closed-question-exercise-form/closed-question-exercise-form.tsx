@@ -39,6 +39,7 @@ class ClosedQuestionExerciseForm extends Component<
     if (exercise) {
       this.setState({
         exercise: exercise,
+        closedAnswers: exercise.closedAnswers,
       });
     }
   }
