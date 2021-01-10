@@ -28,6 +28,12 @@ export function exerciseReducer(state: IExerciseState = init, action): IExercise
         });
     }
     else if(action.type === ACTION_TYPES.DELETE_EXERCISE){
+        const deletedExerciseName = new URLSearchParams(action.payload.config.url).get('name');
+        return Object.assign({}, state, state.exercises = state.exercises.filter(exercise => exercise.name !== deletedExerciseName), {
+            infoResponse: action.payload.data,
+        });
+    }
+    else if(action.type === ACTION_TYPES.ASSIGN_TO_EXERCISE){
         return Object.assign({}, state, {
             infoResponse: action.payload.data,
         });
