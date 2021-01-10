@@ -2,21 +2,28 @@ package com.zrcaw.langshub.service.exercise;
 
 import com.zrcaw.langshub.dao.exercise.ExerciseDao;
 import com.zrcaw.langshub.dao.exercise.ExerciseDaoImpl;
+import com.zrcaw.langshub.dao.pupil.PupilDao;
+import com.zrcaw.langshub.dao.pupil.PupilDaoImpl;
 import com.zrcaw.langshub.dto.exercise.ExerciseDTO;
 import com.zrcaw.langshub.dto.exercise.ListeningExerciseDTO;
+import com.zrcaw.langshub.dto.exercise.PupilAssignInformationDTO;
 import com.zrcaw.langshub.dto.message.MessageDTO;
 import com.zrcaw.langshub.dto.translate.LanguageCode;
 import com.zrcaw.langshub.exception.exercise.ExerciseAlreadyExistsException;
 import com.zrcaw.langshub.exception.exercise.ExerciseNotFoundException;
 import com.zrcaw.langshub.model.exercise.Exercise;
 import com.zrcaw.langshub.model.exercise.ExerciseType;
+import com.zrcaw.langshub.model.pupil.AssignedExercise;
+import com.zrcaw.langshub.model.pupil.Pupil;
 import com.zrcaw.langshub.service.mapper.ExerciseMapper;
 import com.zrcaw.langshub.service.polly.PollyService;
 import com.zrcaw.langshub.service.s3.S3Service;
 import org.springframework.stereotype.Service;
 import software.amazon.awssdk.core.sync.RequestBody;
 
+import javax.swing.text.html.Option;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,27 +33,33 @@ public class ExerciseService {
     private final ExerciseMapper exerciseMapper;
     private final PollyService pollyService;
     private final S3Service s3Service;
+    private final PupilDao pupilDao;
 
     public ExerciseService(ExerciseDaoImpl exerciseDao,
                            ExerciseMapper exerciseMapper,
                            PollyService pollyService,
-                           S3Service s3Service) {
+                           S3Service s3Service,
+                           PupilDaoImpl pupilDaoImpl) {
         this.exerciseDao = exerciseDao;
         this.exerciseMapper = exerciseMapper;
         this.pollyService = pollyService;
         this.s3Service = s3Service;
+        this.pupilDao = pupilDaoImpl;
     }
 
     public ExerciseDTO getExercise(String author, String name) {
         Exercise exercise = exerciseDao.getExercise(author, name)
                 .orElseThrow(() -> new ExerciseNotFoundException(author, name));
         ExerciseDTO dto = exerciseMapper.map(exercise);
+        setPupilAssignInformation(dto);
         return dto;
     }
 
     public List<ExerciseDTO> getAllExercises(String author) {
-        return exerciseDao.getAllExercises(author).stream().map(exerciseMapper::map)
+        List<ExerciseDTO> exercises = exerciseDao.getAllExercises(author).stream().map(exerciseMapper::map)
                 .collect(Collectors.toList());
+        exercises.forEach(this::setPupilAssignInformation);
+        return exercises;
     }
 
     public MessageDTO createExercise(ExerciseDTO exerciseDTO) {
@@ -94,6 +107,20 @@ public class ExerciseService {
 
     private String getKey(String author, String name) {
         return author + "-" + name;
+    }
+
+    private void setPupilAssignInformation(ExerciseDTO dto) {
+        List<Pupil> pupils = pupilDao.getAllPupils(dto.getAuthor());
+        dto.setPupils(
+        pupils.stream().map(pupil -> {
+            Optional<AssignedExercise> assignedExercise = pupil.getAssignedExercises()
+                    .stream().filter(ex -> ex.getExerciseName().equals(dto.getName())).findFirst();
+            if(assignedExercise.isPresent()) {
+                return new PupilAssignInformationDTO(pupil.getName(), true, assignedExercise.get().getAnswers() != null);
+            } else {
+                return new PupilAssignInformationDTO(pupil.getName(), false, false);
+            }
+        }).collect(Collectors.toList()));
     }
 
 }

@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME,include = JsonTypeInfo.As.EXISTING_PROPERTY)
@@ -22,5 +24,7 @@ public abstract class ExerciseDTO {
 
     @JsonProperty("@type")
     private String type;
+
+    private List<PupilAssignInformationDTO> pupils;
 
 }
