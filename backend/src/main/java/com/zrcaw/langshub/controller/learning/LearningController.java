@@ -1,6 +1,6 @@
 package com.zrcaw.langshub.controller.learning;
 
-import com.zrcaw.langshub.dto.exercise.ExerciseDTO;
+import com.zrcaw.langshub.dto.learning.ExerciseForPupilDTO;
 import com.zrcaw.langshub.dto.learning.SolutionDTO;
 import com.zrcaw.langshub.dto.message.MessageDTO;
 import com.zrcaw.langshub.service.learning.LearningService;
@@ -20,7 +20,7 @@ public class LearningController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ExerciseDTO>> getAssignedExercises(
+    public ResponseEntity<List<ExerciseForPupilDTO>> getAssignedExercises(
             @RequestParam(name = "pupilName") String pupilName) {
         return ResponseEntity.ok(learningService.getAssignedExercises(pupilName));
     }

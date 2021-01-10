@@ -29,7 +29,7 @@ public class ExerciseMapper {
             case CLOSED_QUESTION_EXERCISE:
                 return modelMapper.map(exercise, ClosedQuestionExerciseDTO.class);
             case LISTENING_EXERCISE:
-                return modelMapper.map(exercise, ListeningExerciseResponse.class);
+                return modelMapper.map(exercise, ListeningExerciseDTO.class);
             case SPEAKING_EXERCISE:
                 return modelMapper.map(exercise, SpeakingExerciseDTO.class);
         }

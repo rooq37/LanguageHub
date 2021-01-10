@@ -5,7 +5,7 @@ public enum ExerciseType {
     OPEN_QUESTION_EXERCISE("OpenQuestionExerciseDTO"),
     CLOSED_QUESTION_EXERCISE("ClosedQuestionExerciseDTO"),
     SPEAKING_EXERCISE("SpeakingExerciseDTO"),
-    LISTENING_EXERCISE("ListeningExerciseRequest");
+    LISTENING_EXERCISE("ListeningExerciseDTO");
 
     private final String value;
 
