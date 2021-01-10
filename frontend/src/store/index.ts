@@ -4,12 +4,13 @@ import { exerciseReducer } from './exercise/reducer';
 import { ITranslateState } from './translate/types';
 import thunk from "redux-thunk";
 import { IExerciseState } from './exercise/types';
-import { ISolutionState } from './solution/types';
+import { ILearningState } from './learning/types';
+import { learningReducer } from './learning/reducer';
 
 export interface IRootState {
     translate: ITranslateState,
     exercise: IExerciseState,
-    solution: ISolutionState
+    learning: ILearningState
 }
 
 declare global {
@@ -18,6 +19,10 @@ declare global {
     }
   }
 const storeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(combineReducers({translate:translateReducer, exercise:exerciseReducer}), storeEnhancers(applyMiddleware(thunk)));
+const store = createStore(combineReducers({
+  translate:translateReducer,
+  exercise:exerciseReducer,
+  learning:learningReducer
+}), storeEnhancers(applyMiddleware(thunk)));
 
 export default store;

@@ -7,7 +7,6 @@ import { ISolution } from "../../../../models/solution.model";
 import { ISpeakingExercise } from "../../../../models/speaking-exercise.model";
 
 export interface IPropsSpeakingExerciseForm {
-  exerciseNumber: Number;
   exercise: ISpeakingExercise;
   handleSubmit;
 }
@@ -46,7 +45,7 @@ class SpeakingExerciseForm extends Component<
       <React.Fragment>
         <Form.Group controlId="formBasicPassword">
           
-        <p className="exerciseSpeakTitle">{"Exercise " + this.props.exerciseNumber}</p>
+        <p className="exerciseSpeakTitle">Exercise</p>
         <p className="exerciseSpeakQuestion">Click mic button and say: {this.props.exercise.text}</p>
         </Form.Group>
         <Button>Mic</Button>

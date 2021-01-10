@@ -1,19 +1,21 @@
 import React from "react";
 import { Component } from "react";
-import { Alert } from "react-bootstrap";
+import { Alert, Button } from "react-bootstrap";
 import { ExerciseTypesEnum } from "../../enums/exercise-types.enum";
 import ExerciseForm from "./exercise-form/exercise-form";
 import { IClosedQuestionExercise } from "../../models/closed-question-exercise.model";
 import { ISolution } from "../../models/solution.model";
 import { connect } from "react-redux";
 import { getExercise } from "../../store/exercise/actions";
-import { createSolution } from "../../store/solution/actions";
+import { createSolution } from "../../store/learning/actions";
 import { RouteComponentProps, Redirect } from "react-router-dom";
 import { IRootState } from "../../store";
 import FlashState from "../../flashstate";
+import { IExercise } from "../../models/exercise.model";
 
 export interface MatchParams {
   exerciseName: string;
+  authorName: string;
 }
 
 export interface ISolveExerciseProps
@@ -25,12 +27,6 @@ export interface ISolveExerciseProps
 class SolveExercise extends Component<ISolveExerciseProps> {
   constructor(props) {
     super(props);
-    this.state = {
-      solution: {
-        solution: {},
-        infoResponse: {}
-      }
-    }
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -39,11 +35,12 @@ class SolveExercise extends Component<ISolveExerciseProps> {
     const {
       match: { params },
     } = this.props;
-    console.log(params.exerciseName);
-    this.props.getExercise(params.exerciseName, loggedInUser);
+    this.props.getExercise(params.exerciseName, params.authorName);
   }
 
   handleSubmit(solution: ISolution) {
+    console.log(solution);
+    solution.pupilName = localStorage.getItem("user");
     this.props.createSolution(solution);
   }
 
@@ -67,29 +64,15 @@ class SolveExercise extends Component<ISolveExerciseProps> {
   }
 
   render() {
-    const { exercise } = {
-      exercise: {
-          "@type": ExerciseTypesEnum.CLOSED_QUESTION,
-          author: "Meffiu",
-          question: "Czy lubisz placki?",
-          closedAnswers:[
-            {
-              answer: "tak",
-              correct: true
-            },
-            {
-              answer: "nie",
-              correct: false
-            }],
-        } as IClosedQuestionExercise};
+    const { exercise } = this.props;
         return (
           <React.Fragment>
             {this.checkIfSuccess()}
             {exercise ? (
               <ExerciseForm
-                exerciseNumber={1}
                 handleSubmit={this.handleSubmit}
                 exercise={exercise}
+
               />
             ) : null}
           </React.Fragment>
@@ -99,14 +82,15 @@ class SolveExercise extends Component<ISolveExerciseProps> {
 }
 
 
-const mapStateToProps = ({ solution }: IRootState) => ({
-  infoResponse: solution.infoResponse,
-  solution: solution.solution
+const mapStateToProps = ({ learning, exercise }: IRootState) => ({
+  infoResponse: learning.infoResponse,
+  solution: learning.solution,
+  exercise: exercise.exercise
 });
 
 const mapDispatchToProps = {
-  getExercise,
   createSolution,
+  getExercise,
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

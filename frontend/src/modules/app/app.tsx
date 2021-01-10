@@ -33,7 +33,7 @@ class App extends Component {
               />
               <Route path="/about" component={About} />
               <Route path="/login" component={Login} />
-              <Route path="/exercises-to-solve/:exerciseName" component={SolveExercise} />
+              <Route path="/exercises-to-solve/:authorName/:exerciseName" component={SolveExercise} />
               <Route path="/exercises-to-solve" component={ExercisesToSolveList} />
             </Switch>
           </Container>
