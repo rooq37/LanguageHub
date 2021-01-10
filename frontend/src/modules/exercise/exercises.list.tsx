@@ -14,7 +14,6 @@ import FlashState from "../../flashstate";
 import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AssignExercise from "./assign-exercise";
-import { ExerciseTypesEnum } from "../../enums/exercise-types.enum";
 
 export interface IExercisesListProps extends StateProps, DispatchProps {}
 
