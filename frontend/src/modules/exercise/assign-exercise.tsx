@@ -39,7 +39,7 @@ class AssignExercise extends Component<IAssignExerciseProps> {
     switch (action) {
       case "remove-value":
       case "pop-value":
-        if (removedValue.isFixed) {
+        if (removedValue && removedValue.isFixed) {
           return;
         }
         break;
