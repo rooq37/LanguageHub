@@ -3,7 +3,7 @@ import "./open-question-exercise-form.css";
 import { Component } from "react";
 import { Form } from "react-bootstrap";
 import { ExerciseTypesEnum } from "../../../../enums/exercise-types.enum";
-import { Solution } from "../../../../models/solution.model";
+import { ISolution } from "../../../../models/solution.model";
 import { IOpenQuestionExercise } from "../../../../models/open-question-exercise.model";
 
 export interface IPropsOpenQuestionExerciseForm {
@@ -12,7 +12,7 @@ export interface IPropsOpenQuestionExerciseForm {
   handleSubmit;
 }
 export interface IStatesOpenQuestionExerciseForm {
-  solution: Solution;
+  solution: ISolution;
 }
 class OpenQuestionExerciseForm extends Component<
   IPropsOpenQuestionExerciseForm,

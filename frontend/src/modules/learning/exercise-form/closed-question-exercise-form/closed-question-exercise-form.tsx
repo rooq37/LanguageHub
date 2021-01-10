@@ -3,16 +3,16 @@ import "./closed-question-exercise-form.css"
 import { Component } from "react";
 import { Form } from "react-bootstrap";
 import { ExerciseTypesEnum } from "../../../../enums/exercise-types.enum";
-import { IClosedQuestionExerciseModel } from "../../../../models/closed-question-exercise.model";
-import { Solution } from "../../../../models/solution.model";
+import { IClosedQuestionExercise } from "../../../../models/closed-question-exercise.model";
+import { ISolution } from "../../../../models/solution.model";
 
 export interface IPropsClosedQuestionExerciseForm {
   exerciseNumber: Number;
-  exercise: IClosedQuestionExerciseModel;
+  exercise: IClosedQuestionExercise;
   handleSubmit;
 }
 export interface IStatesClosedQuestionExerciseForm {
-  solution: Solution;
+  solution: ISolution;
 }
 class ClosedQuestionExerciseForm extends Component<
   IPropsClosedQuestionExerciseForm,

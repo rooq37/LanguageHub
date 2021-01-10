@@ -4,10 +4,12 @@ import { exerciseReducer } from './exercise/reducer';
 import { ITranslateState } from './translate/types';
 import thunk from "redux-thunk";
 import { IExerciseState } from './exercise/types';
+import { ISolutionState } from './solution/types';
 
 export interface IRootState {
     translate: ITranslateState,
-    exercise: IExerciseState
+    exercise: IExerciseState,
+    solution: ISolutionState
 }
 
 declare global {

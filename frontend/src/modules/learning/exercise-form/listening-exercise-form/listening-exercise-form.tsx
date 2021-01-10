@@ -4,7 +4,7 @@ import { Component } from "react";
 import { Form } from "react-bootstrap";
 import { ExerciseTypesEnum } from "../../../../enums/exercise-types.enum";
 import { IListeningExercise } from "../../../../models/listening-exercise.model";
-import { Solution } from "../../../../models/solution.model";
+import { ISolution } from "../../../../models/solution.model";
 
 export interface IPropsListeningExerciseForm {
   exerciseNumber: Number;
@@ -12,7 +12,7 @@ export interface IPropsListeningExerciseForm {
   handleSubmit;
 }
 export interface IStatesListeningExerciseForm {
-  solution: Solution;
+  solution: ISolution;
 }
 class ListeningExerciseForm extends Component<
   IPropsListeningExerciseForm,

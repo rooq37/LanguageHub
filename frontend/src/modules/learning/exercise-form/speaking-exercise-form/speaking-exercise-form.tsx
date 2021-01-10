@@ -3,7 +3,7 @@ import "./speaking-exercise-form.css";
 import { Component } from "react";
 import { Button, Form } from "react-bootstrap";
 import { ExerciseTypesEnum } from "../../../../enums/exercise-types.enum";
-import { Solution } from "../../../../models/solution.model";
+import { ISolution } from "../../../../models/solution.model";
 import { ISpeakingExercise } from "../../../../models/speaking-exercise.model";
 
 export interface IPropsSpeakingExerciseForm {
@@ -12,7 +12,7 @@ export interface IPropsSpeakingExerciseForm {
   handleSubmit;
 }
 export interface IStatesSpeakingExerciseForm {
-  solution: Solution;
+  solution: ISolution;
 }
 class SpeakingExerciseForm extends Component<
   IPropsSpeakingExerciseForm,
