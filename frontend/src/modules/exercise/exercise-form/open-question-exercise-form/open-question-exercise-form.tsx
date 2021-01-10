@@ -5,6 +5,7 @@ import { Component } from "react";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { ExerciseTypesEnum } from "../../../../enums/exercise-types.enum";
 import { IOpenQuestionExercise } from "../../../../models/open-question-exercise.model";
+import FormButtons from "../form-buttons";
 
 export interface IPropsOpenQuestionExerciseForm {
   handleSubmit;
@@ -152,9 +153,7 @@ class OpenQuestionExerciseForm extends Component<
         })}
         <Row>
           <Col>
-            <Button variant="primary" type="submit">
-              Save
-            </Button>
+            <FormButtons />
           </Col>
           <Col>
             <Button

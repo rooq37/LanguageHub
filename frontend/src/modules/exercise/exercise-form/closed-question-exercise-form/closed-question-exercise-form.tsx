@@ -7,6 +7,7 @@ import { ExerciseTypesEnum } from "../../../../enums/exercise-types.enum";
 import { PredefClosedAnswersEnum } from "../../../../enums/predef-closed-answers-types";
 import { IClosedAnswer } from "../../../../models/closed-answer.model";
 import { IClosedQuestionExercise } from "../../../../models/closed-question-exercise.model";
+import FormButtons from "../form-buttons";
 
 export interface IPropsClosedQuestionExerciseForm {
   handleSubmit;
@@ -206,9 +207,7 @@ class ClosedQuestionExerciseForm extends Component<
 
         <Row>
           <Col>
-            <Button variant="primary" type="submit">
-              Save
-            </Button>
+            <FormButtons />
           </Col>
           <Col>
             <Button

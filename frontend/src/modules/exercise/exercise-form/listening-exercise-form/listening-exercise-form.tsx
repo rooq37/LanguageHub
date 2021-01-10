@@ -1,8 +1,9 @@
 import React from "react";
 import { Component } from "react";
-import { Button, Form } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { ExerciseTypesEnum } from "../../../../enums/exercise-types.enum";
 import { IListeningExercise } from "../../../../models/listening-exercise.model";
+import FormButtons from "../form-buttons";
 
 export interface IPropsListeningExerciseForm {
   handleSubmit;
@@ -91,9 +92,7 @@ class ListeningExerciseForm extends Component<
           </Form.Control.Feedback>
         </Form.Group>
 
-        <Button variant="primary" type="submit">
-          Save
-        </Button>
+        <FormButtons />
       </Form>
     );
   }
