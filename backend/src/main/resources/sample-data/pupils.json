@@ -1,10 +1,90 @@
 [
   {
-    "tutorName": "Meffiu",
-    "name": "Grzeczny Krzysiu"
+    "name": "Krzysztof Z",
+    "tutorName": "John",
+    "exerciseGroups": [
+      "a1",
+      "a2"
+    ],
+    "solutions": [
+      {
+        "exerciseName": "ex1",
+        "groupName": "a1",
+        "answers": [
+          {
+            "answer": "Dog",
+            "isCorrect": true
+          }
+        ]
+      },
+      {
+        "exerciseName": "ex6",
+        "groupName": "a2",
+        "answers": [
+          {
+            "answer": "I am Andrzej and I was born in Poland",
+            "isCorrect": true
+          }
+        ]
+      }
+    ]
   },
   {
-    "tutorName": "Meffiu",
-    "name": "Niegrzeczny Mati"
+    "name": "Mateusz P",
+    "tutorName": "John",
+    "exerciseGroups": [
+      "a1"
+    ],
+    "solutions": [
+      {
+        "exerciseName": "ex1",
+        "groupName": "a1",
+        "answers": [
+          {
+            "answer": "Lion",
+            "isCorrect": false
+          }
+        ]
+      },
+      {
+        "exerciseName": "ex3",
+        "groupName": "a1",
+        "answers": [
+          {
+            "answer": "Ich bin Marek",
+            "isCorrect": false
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Marta M",
+    "tutorName": "Lisa",
+    "exerciseGroups": [
+      "a1"
+    ],
+    "solutions": [
+      {
+        "exerciseName": "ex1",
+        "groupName": "a1",
+        "answers": [
+          {
+            "answer": "Lion",
+            "isCorrect": true
+          }
+        ]
+      },
+      {
+        "exerciseName": "ex4",
+        "groupName": "a1",
+        "answers": [
+          {
+            "answer": "I'am Krzysztof",
+            "isCorrect": false
+          }
+        ]
+      }
+    ]
   }
 ]
