@@ -1,4 +1,4 @@
-package com.zrcaw.langshub.model;
+package com.zrcaw.langshub.model.exercise;
 
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbBean;
 import software.amazon.awssdk.enhanced.dynamodb.mapper.annotations.DynamoDbPartitionKey;
@@ -11,7 +11,6 @@ public class Exercise {
 
     private String author;
     private String name;
-    private String groupName;
     private ExerciseType type;
 
     private String text;
@@ -35,14 +34,6 @@ public class Exercise {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getGroupName() {
-        return groupName;
-    }
-
-    public void setGroupName(String groupName) {
-        this.groupName = groupName;
     }
 
     public ExerciseType getType() {

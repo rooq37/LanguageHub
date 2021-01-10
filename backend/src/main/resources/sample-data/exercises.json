@@ -1,37 +1,144 @@
 [
   {
-    "author": "Meffiu",
+    "author": "John",
+    "name": "ex1",
+    "question": "Przetłumacz słowo pies.",
     "closedAnswers": [
       {
-        "answer": "prawda",
-        "correct": true
+        "answer": "Dog",
+        "isCorrect": true
       },
       {
-        "answer": "fałsz",
-        "correct": false
+        "answer": "Cat",
+        "isCorrect": false
+      },
+      {
+        "answer": "Lion",
+        "isCorrect": false
       }
     ],
-    "groupName": "łatwe",
-    "name": "cztery",
-    "question": "Czy to prawda?",
-    "type": "CLOSED_QUESTION_EXERCISE"
+    "type": "ClosedQuestionExercise"
   },
   {
-    "author": "Meffiu",
-    "groupName": "łatwe",
-    "name": "dwa",
-    "text": "text",
-    "type": "SPEAKING_EXERCISE"
-  },
-  {
+    "author": "John",
+    "name": "ex2",
+    "question": "Napisz po angielsku zdanie \"Kocham koty\".",
     "acceptableOpenAnswers": [
-      "Tak",
-      "Prawda"
+      "I love cats"
     ],
-    "author": "Meffiu",
-    "groupName": "łatwe",
-    "name": "trzy",
-    "question": "Pytanko?",
-    "type": "OPEN_QUESTION_EXERCISE"
+    "type": "OpenQuestionExercise"
+  },
+  {
+    "author": "John",
+    "name": "ex3",
+    "question": "Napisz po angielsku zdanie \"Jestem Marek\".",
+    "acceptableOpenAnswers": [
+      "I am Marek",
+      "I'm Marek"
+    ],
+    "type": "OpenQuestionExercise"
+  },
+  {
+    "author": "John",
+    "name": "ex4",
+    "text": "My name is Andrzej and I come from Poland",
+    "type": "ListeningExercise"
+  },
+  {
+    "author": "John",
+    "name": "ex5",
+    "question": "Przetłumacz zdanie \"Urodziłem się w Polsce\".",
+    "closedAnswers": [
+      {
+        "answer": "I was born in Poland",
+        "isCorrect": true
+      },
+      {
+        "answer": "I did born in Poland",
+        "isCorrect": false
+      },
+      {
+        "answer": "I borned in Poland",
+        "isCorrect": false
+      }
+    ],
+    "type": "ClosedQuestionExercise"
+  },
+  {
+    "author": "John",
+    "name": "ex6",
+    "text": "I am Andrzej and I was born in Poland",
+    "type": "SpeakingExercise"
+  },
+  {
+    "author": "Lisa",
+    "name": "ex1",
+    "question": "Przetłumacz słowo lew.",
+    "closedAnswers": [
+      {
+        "answer": "Dog",
+        "isCorrect": false
+      },
+      {
+        "answer": "Cat",
+        "isCorrect": false
+      },
+      {
+        "answer": "Lion",
+        "isCorrect": true
+      }
+    ],
+    "type": "ClosedQuestionExercise"
+  },
+  {
+    "author": "Lisa",
+    "name": "ex2",
+    "question": "Napisz po angielsku zdanie \"Kocham psy\".",
+    "acceptableOpenAnswers": [
+      "I love dogs"
+    ],
+    "type": "OpenQuestionExercise"
+  },
+  {
+    "author": "Lisa",
+    "name": "ex3",
+    "question": "Napisz po angielsku zdanie \"Jestem Krzysztof\".",
+    "acceptableOpenAnswers": [
+      "I am Krzysztof",
+      "I'm Krzysztof"
+    ],
+    "type": "OpenQuestionExercise"
+  },
+  {
+    "author": "Lisa",
+    "name": "ex4",
+    "text": "My name is John and I come from England",
+    "type": "ListeningExercise"
+  },
+  {
+    "author": "Lisa",
+    "name": "ex5",
+    "question": "Przetłumacz zdanie \"Urodziłem się w Anglii\".",
+    "closedAnswers": [
+      {
+        "answer": "I was born in England",
+        "isCorrect": true
+      },
+      {
+        "answer": "I did born in England",
+        "isCorrect": false
+      },
+      {
+        "answer": "I borned in England",
+        "isCorrect": false
+      }
+    ],
+    "type": "ClosedQuestionExercise"
+  },
+  {
+    "author": "Lisa",
+    "name": "ex6",
+    "text": "I am John and I was born in England",
+    "type": "SpeakingExercise"
   }
 ]

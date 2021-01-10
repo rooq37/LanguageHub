@@ -43,10 +43,9 @@ class Login extends Component<{}, ITranslatorStates> {
                 defaultValue={this.state.usernameSelect}
                 onChange={this.handleUserChange.bind(this)}
               >
-                <option value="Meffiu">Meffiu (lecturer)</option>
-                <option value="Andrzej">Andrzej (lecturer)</option>
-                <option value="Stachu">Stachu (lecturer)</option>
-                <option value="Tomo">Tomo (lecturer)</option>
+                <option value="John">John (lecturer)</option>
+                <option value="Lisa">Lisa (lecturer)</option>
+                <option value="Brian">Brian (lecturer)</option>
               </Form.Control>
             </Form.Group>
           </Col>
