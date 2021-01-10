@@ -32,6 +32,12 @@ export function exerciseReducer(state: IExerciseState = init, action): IExercise
             infoResponse: action.payload.data,
         });
     }
+    else if(action.type === ACTION_TYPES.ASSIGN_TO_EXERCISE){
+        console.log(action);
+        return Object.assign({}, state, {
+            infoResponse: action.payload.data,
+        });
+    }
     else if(action.type === ACTION_TYPES.RESET){
         return state = init
     }

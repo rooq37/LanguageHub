@@ -6,12 +6,14 @@ import {
   getAllExercises,
   reset,
   deleteExercise,
+  assignToExercise,
 } from "../../store/exercise/actions";
 import { LinkContainer } from "react-router-bootstrap";
 import { Alert, Button, Table } from "react-bootstrap";
 import FlashState from "../../flashstate";
 import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import AssignExercise from "./assign-exercise";
 
 export interface IExercisesListProps extends StateProps, DispatchProps {}
 
@@ -28,6 +30,7 @@ class ExercisesList extends Component<
     this.state = {
       successMessage: "",
     };
+    this.saveAssignation = this.saveAssignation.bind(this);
   }
 
   componentDidMount() {
@@ -44,6 +47,13 @@ class ExercisesList extends Component<
     deleteExercise(exerciseName, loggedInUser);
   }
 
+  saveAssignation(key, pupilNames: string[]) {
+    const { assignToExercise, exercises } = this.props;
+    const loggedInUser = localStorage.getItem("user");
+    const exercise = exercises[key];
+    assignToExercise(exercise.name, loggedInUser, pupilNames);
+  }
+
   render() {
     const { exercises } = this.props;
     return (
@@ -51,28 +61,40 @@ class ExercisesList extends Component<
         {this.state.successMessage ? (
           <Alert variant="success">{this.state.successMessage}</Alert>
         ) : null}
-        <p>List of exercises created by you:</p>
-        <Table striped bordered hover>
+        <p>
+          <b>List of exercises created by you:</b>
+        </p>
+        <Table striped hover>
           <thead>
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Options</th>
+            <tr className="d-flex">
+              <th className="col-1">#</th>
+              <th className="col-3">Name</th>
+              <th className="col-1">Type</th>
+              <th className="col-5">Assign</th>
+              <th className="col-2">Options</th>
             </tr>
           </thead>
           <tbody>
             {exercises.map((exercise, index) => {
               return (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{exercise.name}</td>
-                  <td>
+                <tr key={index} className="d-flex">
+                  <td className="col-1">{index + 1}</td>
+                  <td className="col-3">{exercise.name}</td>
+                  <td className="col-1">TODO</td>
+                  <td className="col-5">
+                    <AssignExercise
+                      pupils={exercise.pupils}
+                      saveAssignation={this.saveAssignation}
+                      id={index}
+                    />
+                  </td>
+                  <td className="col-2">
                     <LinkContainer to={"/exercises/edit/" + exercise.name}>
                       <Button variant="warning">
                         <FontAwesomeIcon className="text-white" icon={faPen} />
                       </Button>
                     </LinkContainer>
-                    <i className="mr-2"></i>
+                    <i className="mr-3"></i>
                     <Button
                       variant="danger"
                       onClick={() => this.deleteExercise(exercise.name)}
@@ -100,6 +122,7 @@ const mapStateToProps = ({ exercise }: IRootState) => ({
 const mapDispatchToProps = {
   getAllExercises,
   deleteExercise,
+  assignToExercise,
   reset,
 };
 

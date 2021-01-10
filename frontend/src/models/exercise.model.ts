@@ -1,8 +1,9 @@
 import { ExerciseTypesEnum } from "../enums/exercise-types.enum";
+import { IPupilInfo } from "./pupil-info.model";
 
 export interface IExercise {
     "@type"?: ExerciseTypesEnum,
     name?: string,
-    groupName?: string,
-    author?: string
+    author?: string,
+    pupils?: IPupilInfo[]
 } 
