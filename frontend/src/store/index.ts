@@ -4,6 +4,7 @@ import { exerciseReducer } from './exercise/reducer';
 import { ITranslateState } from './translate/types';
 import thunk from "redux-thunk";
 import { IExerciseState } from './exercise/types';
+import { loadingBarReducer } from 'react-redux-loading-bar'
 
 export interface IRootState {
     translate: ITranslateState,
@@ -16,6 +17,6 @@ declare global {
     }
   }
 const storeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-const store = createStore(combineReducers({translate:translateReducer, exercise:exerciseReducer}), storeEnhancers(applyMiddleware(thunk)));
+const store = createStore(combineReducers({translate:translateReducer, exercise:exerciseReducer, loadingBar: loadingBarReducer}), storeEnhancers(applyMiddleware(thunk)));
 
 export default store;
