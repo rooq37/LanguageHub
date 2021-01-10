@@ -56,11 +56,16 @@ class ExercisesList extends Component<
   }
 
   render() {
-    const { exercises } = this.props;
+    const { exercises, infoResponse } = this.props;
     return (
       <div>
         {this.state.successMessage ? (
           <Alert variant="success">{this.state.successMessage}</Alert>
+        ) : null}
+        {infoResponse ? (
+          <Alert variant={infoResponse.success ? "success" : "danger"}>
+            {infoResponse.messageText}
+          </Alert>
         ) : null}
         <p>
           <b>List of exercises created by you:</b>
@@ -118,6 +123,7 @@ class ExercisesList extends Component<
 
 const mapStateToProps = ({ exercise }: IRootState) => ({
   exercises: exercise.exercises,
+  infoResponse: exercise.infoResponse,
 });
 
 const mapDispatchToProps = {
