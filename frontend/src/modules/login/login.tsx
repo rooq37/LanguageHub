@@ -11,7 +11,7 @@ class Login extends Component<{}, ITranslatorStates> {
   constructor(props) {
     super(props);
     this.state = {
-      usernameSelect: "Meffiu",
+      usernameSelect: "John",
     };
   }
 
@@ -31,8 +31,6 @@ class Login extends Component<{}, ITranslatorStates> {
       <Form>
         <p className="text-center">
           <b>Please select your user from predefined:</b>
-          <br />
-          Note: all roles (lecturer as well ;)) are disabled now.
         </p>
         <Row>
           <Col sm={3}></Col>
