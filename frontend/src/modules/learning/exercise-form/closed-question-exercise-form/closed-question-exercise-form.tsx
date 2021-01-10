@@ -1,13 +1,11 @@
 import React from "react";
 import "./closed-question-exercise-form.css"
 import { Component } from "react";
-import { Form } from "react-bootstrap";
-import { ExerciseTypesEnum } from "../../../../enums/exercise-types.enum";
+import { Button, Form } from "react-bootstrap";
 import { IClosedQuestionExercise } from "../../../../models/closed-question-exercise.model";
 import { ISolution } from "../../../../models/solution.model";
 
 export interface IPropsClosedQuestionExerciseForm {
-  exerciseNumber: Number;
   exercise: IClosedQuestionExercise;
   handleSubmit;
 }
@@ -18,31 +16,33 @@ class ClosedQuestionExerciseForm extends Component<
   IPropsClosedQuestionExerciseForm,
   IStatesClosedQuestionExerciseForm
 > {
-  constructor(props) {
+  constructor (props) {
     super(props);
+    const { exercise } = this.props;
     this.state = {
       solution: {
-        pupilName: "Meffiu",
-        exerciseName: this.props.exercise.name,
-        exerciseType: ExerciseTypesEnum.CLOSED_QUESTION,
+        pupilName: "",
+        exerciseName: exercise.name,
+        exerciseType: exercise["@type"],
         answers: []
-      },
-    };
+      }
+    }
   }
 
-  handleInput(e, element) {
-    const { exercise } = this.props;
-    exercise[element] = e.target.value;
+  handleClosedAnswerChanged(e, element) {
+    const solution = this.state.solution;
+    if (element) {
+      const index = solution.answers.indexOf(element);
+      if (index === -1 && e.target.checked) {
+        solution.answers.push(element);
+      } else if(index !== -1 && !e.target.checked) {
+        solution.answers.splice(index, 1);
+      }
+      this.setState({ solution: solution });
+    }
   }
 
   handleSubmit(e) {
-    // e.preventDefault();
-    // this.setState({
-    //   exercise: {
-    //     question: name,
-    //     closedAnswers: [],
-    //   },
-    // });
     this.props.handleSubmit(this.state.solution);
   }
 
@@ -50,15 +50,18 @@ class ClosedQuestionExerciseForm extends Component<
     const { exercise } = this.props;
     return (
       <React.Fragment>
-        <p className="exerciseClosedTitle">{"Exercise " + this.props.exerciseNumber}</p>
+        <p className="exerciseClosedTitle">Exercise</p>
         <p className="exerciseClosedQuestion">{exercise.question}</p>
         <Form.Group controlId="formClosedAnswer">
           {exercise.closedAnswers.map((answer, key) => {
             return (
-              <Form.Check type="checkbox" label={answer.answer} key={key} value={this.state.solution.answers[key]}/>
+              <Form.Check type="checkbox" label={answer.answer} key={key} onChange={e => this.handleClosedAnswerChanged(e, answer.answer)}/>
             )
           })}
         </Form.Group>
+        <Button variant="primary" type="submit" onClick={e => this.handleSubmit(e)}>
+          Save
+        </Button>
       </React.Fragment>
     );
   }

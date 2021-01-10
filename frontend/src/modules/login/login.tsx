@@ -11,7 +11,7 @@ class Login extends Component<{}, ITranslatorStates> {
   constructor(props) {
     super(props);
     this.state = {
-      usernameSelect: "Meffiu",
+      usernameSelect: "John",
     };
   }
 
@@ -45,7 +45,8 @@ class Login extends Component<{}, ITranslatorStates> {
               >
                 <option value="John">John (lecturer)</option>
                 <option value="Lisa">Lisa (lecturer)</option>
-                <option value="Brian">Brian (lecturer)</option>
+-               <option value="Brian">Brian (lecturer)</option>
+                <option value="Krzysztof Z">Krzysztof Z (pupil)</option>
               </Form.Control>
             </Form.Group>
           </Col>

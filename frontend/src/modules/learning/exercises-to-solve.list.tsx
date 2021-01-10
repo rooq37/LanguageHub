@@ -2,11 +2,6 @@ import React from "react";
 import { Component } from "react";
 import { connect } from "react-redux";
 import { IRootState } from "../../store";
-import {
-  getAllExercises,
-  reset,
-  deleteExercise,
-} from "../../store/exercise/actions";
 import { LinkContainer } from "react-router-bootstrap";
 import { Alert, Button, Table } from "react-bootstrap";
 import FlashState from "../../flashstate";
@@ -17,6 +12,7 @@ import { IClosedQuestionExercise } from "../../models/closed-question-exercise.m
 import { IListeningExercise } from "../../models/listening-exercise.model";
 import { IOpenQuestionExercise } from "../../models/open-question-exercise.model";
 import { ISpeakingExercise } from "../../models/speaking-exercise.model";
+import { getPupilExercises, reset } from "../../store/learning/actions";
 
 export interface IExercisesToSolveListProps extends StateProps, DispatchProps { }
 
@@ -39,50 +35,12 @@ class ExercisesToSolveList extends Component<
     this.props.reset();
 
     const loggedInUser = localStorage.getItem("user");
-    this.props.getAllExercises(loggedInUser);
+    this.props.getPupilExercises(loggedInUser);
     this.setState({ successMessage: FlashState.get("message") });
   }
 
   render() {
-    // console.log(this.props);
-    const { exercises } = {
-      exercises: [
-        {
-          "@type": ExerciseTypesEnum.CLOSED_QUESTION,
-          name: "Pierwsze",
-          author: "Meffiu",
-          question: "Czy lubisz placki?",
-          closedAnswers:[
-            {
-              answer: "tak",
-              correct: true
-            },
-            {
-              answer: "nie",
-              correct: false
-            }],
-        } as IClosedQuestionExercise,
-        {
-          "@type": ExerciseTypesEnum.LISTENING,
-          name: "Drugie",
-          author: "Meffiu",
-          text: ""
-        } as IListeningExercise,
-        {
-          "@type": ExerciseTypesEnum.SPEAKING,
-          name: "Trzecie",
-          author: "Meffiu",
-          text: "komputer"
-        } as ISpeakingExercise,
-        {
-          "@type": ExerciseTypesEnum.OPEN_QUESTION,
-          name: "Czwarte",
-          author: "Meffiu",
-          question: "Czy lubisz komputery?",
-          acceptableOpenAnswers: ["tak", "nie"]
-        } as IOpenQuestionExercise,
-    ]
-    };
+    const { exercises } = this.props;
     return (
       <div>
         {this.state.successMessage ? (
@@ -104,7 +62,7 @@ class ExercisesToSolveList extends Component<
                   <td>{index + 1}</td>
                   <td>{exercise.name}</td>
                   <td>
-                    <LinkContainer to={"/exercises-to-solve/" + exercise.name}>
+                    <LinkContainer to={"/exercises-to-solve/" + exercise.author + "/" + exercise.name}>
                       <Button variant="success">
                         Solve
                       </Button>
@@ -121,13 +79,12 @@ class ExercisesToSolveList extends Component<
   }
 }
 
-const mapStateToProps = ({ exercise }: IRootState) => ({
-  exercises: exercise.exercises,
+const mapStateToProps = ({ learning }: IRootState) => ({
+  exercises: learning.exercises,
 });
 
 const mapDispatchToProps = {
-  getAllExercises,
-  deleteExercise,
+  getPupilExercises,
   reset,
 };
 

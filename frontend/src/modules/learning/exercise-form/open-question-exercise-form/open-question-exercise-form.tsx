@@ -1,13 +1,11 @@
 import React from "react";
 import "./open-question-exercise-form.css";
 import { Component } from "react";
-import { Form } from "react-bootstrap";
-import { ExerciseTypesEnum } from "../../../../enums/exercise-types.enum";
+import { Button, Form } from "react-bootstrap";
 import { ISolution } from "../../../../models/solution.model";
 import { IOpenQuestionExercise } from "../../../../models/open-question-exercise.model";
 
 export interface IPropsOpenQuestionExerciseForm {
-  exerciseNumber: Number;
   exercise: IOpenQuestionExercise;
   handleSubmit;
 }
@@ -20,24 +18,28 @@ class OpenQuestionExerciseForm extends Component<
 > {
   constructor(props) {
     super(props);
+    const { exercise } = this.props;
     this.state = {
       solution: {
-        pupilName: "Meffiu",
-        exerciseName: this.props.exercise.name,
-        exerciseType: ExerciseTypesEnum.OPEN_QUESTION,
+        pupilName: "",
+        exerciseName: exercise.name,
+        exerciseType: exercise["@type"],
         answers: []
-      },
-    };
+      }
+    }
+  }
+
+  handleInput(e) {
+    const solution = this.state.solution;
+    if (!solution.answers[0]) {
+      solution.answers.push(e.target.value);
+    } else {
+      solution.answers[0] = e.target.value;
+    }
+    this.setState({ solution: solution });
   }
 
   handleSubmit(e) {
-    // e.preventDefault();
-    // this.setState({
-    //   exercise: {
-    //     question: name,
-    //     closedAnswers: [],
-    //   },
-    // });
     this.props.handleSubmit(this.state.solution);
   }
 
@@ -45,12 +47,15 @@ class OpenQuestionExerciseForm extends Component<
     return (
       <React.Fragment>
         <Form.Group controlId="formOpenExerciseQuestion">
-          <p className="exerciseOpenTitle">{"Exercise " + this.props.exerciseNumber}</p>
+          <p className="exerciseOpenTitle">Exercise</p>
           <p className="exerciseOpenQuestion">{this.props.exercise.question}</p>
         </Form.Group>
         <Form.Group controlId="formOpenExerciseAnswer">
-          <Form.Control type="plaintext" value={this.state.solution.answers[0]}/>
+          <Form.Control type="plaintext" onChange={e => this.handleInput(e)}/>
         </Form.Group>
+        <Button variant="primary" type="submit" onClick={e => this.handleSubmit(e)}>
+          Save
+        </Button>
       </React.Fragment>
     );
   }
