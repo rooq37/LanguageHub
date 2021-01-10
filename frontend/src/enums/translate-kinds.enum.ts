@@ -1,4 +1,4 @@
 export enum TranslateKindsEnum {
-    PL_EN = "pl-en",
-    EN_PL = "en-pl"
+    PL_EN = "Polish -> English",
+    EN_PL = "English -> Polish"
 } 
