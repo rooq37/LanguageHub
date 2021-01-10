@@ -50,16 +50,25 @@ public class LearningService {
         List<String> assignedExercises = pupil.getAssignedExercises()
                 .stream().map(AssignedExercise::getExerciseName).collect(Collectors.toList());
 
-        List<Exercise> exercises = new ArrayList<>();
+        List<ExerciseForPupilDTO> exercises = new ArrayList<>();
         for(Exercise exercise : exerciseDao.getAllExercises(pupil.getTutorName())) {
             if(assignedExercises.contains(exercise.getName())) {
-                exercises.add(exercise);
+                AssignedExercise assignedExercise = pupil.getAssignedExercises()
+                        .stream().filter(ex -> ex.getExerciseName().equals(exercise.getName())).findFirst().get();
+                ExerciseForPupilDTO exerciseForPupilDTO = exerciseMapper.map(exercise);
+                if(assignedExercise.getAnswers() != null) {
+                    exerciseForPupilDTO.setSolved(true);
+                    double percentageScore = assignedExercise.getAnswers().stream()
+                            .filter(SingleAnswer::isCorrect).count() / assignedExercise.getAnswers().size();
+                    exerciseForPupilDTO.setPercentageScore(percentageScore);
+                }else {
+                    exerciseForPupilDTO.setSolved(false);
+                }
+                exercises.add(exerciseForPupilDTO);
             }
         }
-        List<ExerciseForPupilDTO> exerciseForPupilDTOS = exercises.stream().map(exerciseMapper::map)
-                .collect(Collectors.toList());
-        exerciseForPupilDTOS.forEach(this::setSoundIfRequired);
-        return exerciseForPupilDTOS;
+        exercises.forEach(this::setSoundIfRequired);
+        return exercises;
     }
 
     public MessageDTO updateSolution(SolutionDTO solutionDTO) {

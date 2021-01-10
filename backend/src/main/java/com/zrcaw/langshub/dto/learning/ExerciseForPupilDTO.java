@@ -14,4 +14,7 @@ public class ExerciseForPupilDTO {
     @JsonProperty("@type")
     private String type;
 
+    private boolean isSolved;
+    private double percentageScore;
+
 }
