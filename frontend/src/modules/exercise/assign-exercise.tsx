@@ -102,6 +102,9 @@ class AssignExercise extends Component<IAssignExerciseProps> {
               value={selectedOption}
               onChange={this.onChange.bind(this)}
               options={this.getPupilLabels(pupils)}
+              isClearable={
+                selectedOption && selectedOption.some((v) => !v.isFixed)
+              }
             />
           ) : null}
         </Col>
