@@ -14,6 +14,7 @@ import FlashState from "../../flashstate";
 import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import AssignExercise from "./assign-exercise";
+import { ExerciseTypesEnum } from "../../enums/exercise-types.enum";
 
 export interface IExercisesListProps extends StateProps, DispatchProps {}
 
@@ -68,8 +69,8 @@ class ExercisesList extends Component<
           <thead>
             <tr className="d-flex">
               <th className="col-1">#</th>
-              <th className="col-3">Name</th>
-              <th className="col-1">Type</th>
+              <th className="col-2">Name</th>
+              <th className="col-2">Type</th>
               <th className="col-5">Assign</th>
               <th className="col-2">Options</th>
             </tr>
@@ -79,8 +80,8 @@ class ExercisesList extends Component<
               return (
                 <tr key={index} className="d-flex">
                   <td className="col-1">{index + 1}</td>
-                  <td className="col-3">{exercise.name}</td>
-                  <td className="col-1">TODO</td>
+                  <td className="col-2">{exercise.name}</td>
+                  <td className="col-2">{exercise["@type"]}</td>
                   <td className="col-5">
                     <AssignExercise
                       pupils={exercise.pupils}
