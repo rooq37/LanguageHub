@@ -1,5 +1,5 @@
 import React from "react";
-import "./closed-question-exercise-form.css"
+import "./closed-question-exercise-form.css";
 import { Component } from "react";
 import { Button, Form } from "react-bootstrap";
 import { ISolution } from "../../../../models/learning/solution.model";
@@ -18,7 +18,7 @@ class ClosedQuestionExerciseForm extends Component<
   IPropsClosedQuestionExerciseForm,
   IStatesClosedQuestionExerciseForm
 > {
-  constructor (props) {
+  constructor(props) {
     super(props);
     const { exercise } = this.props;
     this.state = {
@@ -26,11 +26,11 @@ class ClosedQuestionExerciseForm extends Component<
         pupilName: "",
         exerciseName: exercise.name,
         exerciseType: exercise["@type"],
-        answers: []
+        answers: [],
       },
       validated: false,
-      requiredCheckbox: true
-    }
+      requiredCheckbox: true,
+    };
   }
 
   handleClosedAnswerChanged(e, element) {
@@ -39,11 +39,14 @@ class ClosedQuestionExerciseForm extends Component<
       const index = solution.answers.indexOf(element);
       if (index === -1 && e.target.checked) {
         solution.answers.push(element);
-      } else if(index !== -1 && !e.target.checked) {
+      } else if (index !== -1 && !e.target.checked) {
         solution.answers.splice(index, 1);
       }
-      
-      this.setState({ solution: solution, requiredCheckbox: solution.answers.length === 0 });
+
+      this.setState({
+        solution: solution,
+        requiredCheckbox: solution.answers.length === 0,
+      });
     }
   }
 
@@ -65,28 +68,30 @@ class ClosedQuestionExerciseForm extends Component<
     return (
       <React.Fragment>
         <Form
+          noValidate
           validated={this.state.validated}
           onSubmit={(e) => this.handleSubmit(e)}
         >
           <p className="exerciseClosedTitle">{this.props.exercise.name}</p>
           <p className="exerciseClosedQuestion">{exercise.question}</p>
-          <Form.Group controlId="formClosedAnswer">
+
+          <Form.Group>
             {exercise.answers.map((answer, key) => {
               return (
-                <Form.Check
-                  required={this.state.requiredCheckbox}
-                  type="checkbox"
-                  label={answer}
-                  key={key}
-                  onChange={e => this.handleClosedAnswerChanged(e, answer)}
-                />
-              )
+                <Form.Check>
+                  <Form.Check.Input
+                    required={this.state.requiredCheckbox}
+                    onChange={(e) => this.handleClosedAnswerChanged(e, answer)}
+                  />
+                  <Form.Check.Label>{answer}</Form.Check.Label>
+                  <Form.Control.Feedback type="invalid">
+                    Please check any checkbox.
+                  </Form.Control.Feedback>
+                </Form.Check>
+              );
             })}
           </Form.Group>
-          <Button
-            variant="primary"
-            type="submit"
-          >
+          <Button variant="primary" type="submit">
             Save
           </Button>
         </Form>

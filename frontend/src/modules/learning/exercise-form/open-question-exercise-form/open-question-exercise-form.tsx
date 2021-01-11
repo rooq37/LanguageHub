@@ -25,10 +25,10 @@ class OpenQuestionExerciseForm extends Component<
         pupilName: "",
         exerciseName: exercise.name,
         exerciseType: exercise["@type"],
-        answers: []
+        answers: [],
       },
-      validated: false
-    }
+      validated: false,
+    };
   }
 
   handleInput(e) {
@@ -58,13 +58,21 @@ class OpenQuestionExerciseForm extends Component<
     return (
       <React.Fragment>
         <Form
+          noValidate
           validated={this.state.validated}
           onSubmit={(e) => this.handleSubmit(e)}
         >
           <p className="exerciseOpenTitle">{this.props.exercise.name}</p>
           <p className="exerciseOpenQuestion">{this.props.exercise.question}</p>
           <Form.Group controlId="formOpenExerciseAnswer">
-            <Form.Control type="plaintext" onChange={e => this.handleInput(e)} required/>
+            <Form.Control
+              type="plaintext"
+              onChange={(e) => this.handleInput(e)}
+              required
+            />
+            <Form.Control.Feedback type="invalid">
+              Please enter the answer.
+            </Form.Control.Feedback>
           </Form.Group>
           <Button variant="primary" type="submit">
             Save
