@@ -1,6 +1,6 @@
 import React from "react";
 import { Component } from "react";
-import { Alert } from "react-bootstrap";
+import { Alert, Form } from "react-bootstrap";
 import { IExercise } from "../../models/exercise.model";
 import { IRootState } from "../../store";
 import ExerciseForm from "./exercise-form/exercise-form";
@@ -8,6 +8,8 @@ import { connect } from "react-redux";
 import { updateExercise, getExercise } from "../../store/exercise/actions";
 import { Redirect, RouteComponentProps } from "react-router-dom";
 import FlashState from "../../flashstate";
+import { ReactMediaRecorder } from "react-media-recorder";
+import { ExerciseTypesEnum } from "../../enums/exercise-types.enum";
 
 export interface MatchParams {
   exerciseName: string;
@@ -31,10 +33,6 @@ class EditExercise extends Component<IEditExerciseProps> {
     } = this.props;
     console.log(params.exerciseName);
     this.props.getExercise(params.exerciseName, loggedInUser);
-  }
-
-  handleExerciseTypeChange(event) {
-    this.setState({ exerciseType: event.target.value });
   }
 
   handleSubmit(exercise: IExercise) {
@@ -66,11 +64,27 @@ class EditExercise extends Component<IEditExerciseProps> {
       <React.Fragment>
         {this.checkIfSuccess()}
         {exercise ? (
-          <ExerciseForm
-            exerciseType={exercise["@type"]}
-            handleSubmit={this.handleSubmit}
-            exercise={exercise}
-          />
+          <React.Fragment>
+            <Form.Group>
+              <Form.Label>Exercise type:</Form.Label>
+              <Form.Control
+                as="select"
+                disabled
+                defaultValue={exercise["@type"]}
+              >
+                {Object.keys(ExerciseTypesEnum).map((key) => (
+                  <option key={key} value={ExerciseTypesEnum[key]}>
+                    {ExerciseTypesEnum[key]}
+                  </option>
+                ))}
+              </Form.Control>
+            </Form.Group>
+            <ExerciseForm
+              exerciseType={exercise["@type"]}
+              handleSubmit={this.handleSubmit}
+              exercise={exercise}
+            />
+          </React.Fragment>
         ) : null}
       </React.Fragment>
     );
