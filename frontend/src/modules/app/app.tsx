@@ -14,12 +14,24 @@ import CreateExercise from "../exercise/create-exercise";
 import EditExercise from "../exercise/edit-exercise";
 import SolveExercise from "../learning/solve-exercise";
 import ExercisesToSolveList from "../learning/exercises-to-solve.list";
+import LoadingBar from "react-redux-loading-bar";
 
 class App extends Component {
   render() {
     return (
       <div id="main">
         <Navigation />
+        <div>
+          <LoadingBar showFastActions className="loadingBar" />
+          <LoadingBar
+            showFastActions
+            className="longLoadingBar"
+            scope="longTask"
+            updateTime={1000}
+            maxProgress={95}
+            progressIncrease={10}
+          />
+        </div>
         <div id="content">
           <Container>
             <Switch>

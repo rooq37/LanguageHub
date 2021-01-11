@@ -2,6 +2,7 @@ import React from "react";
 import { Component } from "react";
 import { Form, Button, Col, Row, Alert } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
+import { UserRolesEnum } from "../../enums/user-roles-enum";
 
 export interface ITranslatorStates {
   usernameSelect: string;
@@ -11,12 +12,43 @@ class Login extends Component<{}, ITranslatorStates> {
   constructor(props) {
     super(props);
     this.state = {
-      usernameSelect: "John",
+      usernameSelect: this.predefinedUsers[0].name,
     };
   }
 
+  predefinedUsers = [
+    {
+      name: "John",
+      role: UserRolesEnum.LECTURER,
+    },
+    {
+      name: "Lisa",
+      role: UserRolesEnum.LECTURER,
+    },
+    {
+      name: "Brian",
+      role: UserRolesEnum.LECTURER,
+    },
+    {
+      name: "Marta M",
+      role: UserRolesEnum.PUPIL,
+    },
+    {
+      name: "Mateusz P",
+      role: UserRolesEnum.PUPIL,
+    },
+    {
+      name: "Krzysztof Z",
+      role: UserRolesEnum.PUPIL,
+    },
+  ];
+
   login() {
-    localStorage.setItem("user", this.state.usernameSelect);
+    let user = this.predefinedUsers.find(
+      (u) => u.name === this.state.usernameSelect
+    );
+    localStorage.setItem("user", user.name);
+    localStorage.setItem("role", user.role);
   }
 
   handleUserChange(event) {
@@ -31,8 +63,6 @@ class Login extends Component<{}, ITranslatorStates> {
       <Form>
         <p className="text-center">
           <b>Please select your user from predefined:</b>
-          <br />
-          Note: all roles (lecturer as well ;)) are disabled now.
         </p>
         <Row>
           <Col sm={3}></Col>
@@ -43,11 +73,13 @@ class Login extends Component<{}, ITranslatorStates> {
                 defaultValue={this.state.usernameSelect}
                 onChange={this.handleUserChange.bind(this)}
               >
-                <option value="John">John (lecturer)</option>
-                <option value="Lisa">Lisa (lecturer)</option>
--               <option value="Brian">Brian (lecturer)</option>
-                <option value="Krzysztof Z">Krzysztof Z (pupil)</option>
-                <option value="Mateusz P">Mateusz P (pupil)</option>
+                {this.predefinedUsers.map((user, key) => {
+                  return (
+                    <option key={key} value={user.name}>
+                      {user.name + " (" + user.role + ")"}
+                    </option>
+                  );
+                })}
               </Form.Control>
             </Form.Group>
           </Col>

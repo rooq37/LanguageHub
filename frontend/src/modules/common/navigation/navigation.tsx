@@ -3,6 +3,7 @@ import { Component } from "react";
 import { Button, Nav, Navbar } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { RouteComponentProps, withRouter } from "react-router-dom";
+import { UserRolesEnum } from "../../../enums/user-roles-enum";
 
 class Navigation extends Component<RouteComponentProps> {
   logout() {
@@ -11,6 +12,7 @@ class Navigation extends Component<RouteComponentProps> {
 
   render() {
     const loggedInUser = localStorage.getItem("user");
+    const userRole = localStorage.getItem("role");
     return (
       <Navbar bg="primary" expand="lg" className="navbar-dark">
         <Navbar.Brand href="/">LanguageHub</Navbar.Brand>
@@ -23,12 +25,16 @@ class Navigation extends Component<RouteComponentProps> {
             <LinkContainer to="/translator" activeClassName="is-active">
               <Nav.Link>Translator</Nav.Link>
             </LinkContainer>
-            <LinkContainer to="/exercises" activeClassName="is-active">
-              <Nav.Link>Exercises</Nav.Link>
-            </LinkContainer>
-            <LinkContainer to="/exercises-to-solve" activeClassName="is-active">
-              <Nav.Link>Lessons</Nav.Link>
-            </LinkContainer>
+            {loggedInUser && userRole === UserRolesEnum.LECTURER ? (
+              <LinkContainer to="/exercises" activeClassName="is-active">
+                <Nav.Link>Exercises</Nav.Link>
+              </LinkContainer>
+            ) : null}
+            {loggedInUser && userRole === UserRolesEnum.PUPIL ? (
+              <LinkContainer to="/exercises-to-solve" activeClassName="is-active">
+                <Nav.Link>Lessons</Nav.Link>
+              </LinkContainer>
+            ) : null}
             <LinkContainer to="/about" activeClassName="is-active">
               <Nav.Link>About</Nav.Link>
             </LinkContainer>
