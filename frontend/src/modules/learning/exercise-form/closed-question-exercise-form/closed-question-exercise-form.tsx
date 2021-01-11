@@ -2,16 +2,17 @@ import React from "react";
 import "./closed-question-exercise-form.css"
 import { Component } from "react";
 import { Button, Form } from "react-bootstrap";
-import { IClosedQuestionExercise } from "../../../../models/closed-question-exercise.model";
 import { ISolution } from "../../../../models/learning/solution.model";
+import { IClosedQuestionExerciseForPupil } from "../../../../models/learning/closed-question-exercise.model";
 
 export interface IPropsClosedQuestionExerciseForm {
-  exercise: IClosedQuestionExercise;
+  exercise: IClosedQuestionExerciseForPupil;
   handleSubmit;
 }
 export interface IStatesClosedQuestionExerciseForm {
   solution: ISolution;
   validated: boolean;
+  requiredCheckbox: boolean;
 }
 class ClosedQuestionExerciseForm extends Component<
   IPropsClosedQuestionExerciseForm,
@@ -27,7 +28,8 @@ class ClosedQuestionExerciseForm extends Component<
         exerciseType: exercise["@type"],
         answers: []
       },
-      validated: false
+      validated: false,
+      requiredCheckbox: true
     }
   }
 
@@ -40,7 +42,8 @@ class ClosedQuestionExerciseForm extends Component<
       } else if(index !== -1 && !e.target.checked) {
         solution.answers.splice(index, 1);
       }
-      this.setState({ solution: solution });
+      
+      this.setState({ solution: solution, requiredCheckbox: solution.answers.length === 0 });
     }
   }
 
@@ -68,9 +71,15 @@ class ClosedQuestionExerciseForm extends Component<
           <p className="exerciseClosedTitle">{this.props.exercise.name}</p>
           <p className="exerciseClosedQuestion">{exercise.question}</p>
           <Form.Group controlId="formClosedAnswer">
-            {exercise.closedAnswers.map((answer, key) => {
+            {exercise.answers.map((answer, key) => {
               return (
-                <Form.Check type="checkbox" label={answer.answer} key={key} onChange={e => this.handleClosedAnswerChanged(e, answer.answer)}/>
+                <Form.Check
+                  required={this.state.requiredCheckbox}
+                  type="checkbox"
+                  label={answer}
+                  key={key}
+                  onChange={e => this.handleClosedAnswerChanged(e, answer)}
+                />
               )
             })}
           </Form.Group>
