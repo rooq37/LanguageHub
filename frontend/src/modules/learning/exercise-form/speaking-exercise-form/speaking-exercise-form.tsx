@@ -41,13 +41,14 @@ ISpeakingExerciseFormStates
     this.props.reset();
   }
 
-  handleInput(e) {
+  handleInput(text) {
     const solution = this.state.solution;
     if (!solution.answers[0]) {
-      solution.answers.push(e.target.value);
+      solution.answers.push(text);
     } else {
-      solution.answers[0] = e.target.value;
+      solution.answers[0] = text;
     }
+    
     this.setState({ solution: solution });
   }
 
@@ -69,6 +70,7 @@ ISpeakingExerciseFormStates
       this.props.answer != null &&
       prevProps.answer !== this.props.answer
     ) {
+      this.handleInput(this.props.answer);
       this.setState({
         inputText: this.props.answer,
       });
@@ -103,7 +105,6 @@ ISpeakingExerciseFormStates
               readOnly
               type="plaintext"
               value={this.state.inputText}
-              onChange={e => this.handleInput(e)}
             />
           </Form.Group>
           <Button
