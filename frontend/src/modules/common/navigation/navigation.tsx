@@ -3,6 +3,7 @@ import { Component } from "react";
 import { Button, Nav, Navbar } from "react-bootstrap";
 import { LinkContainer } from "react-router-bootstrap";
 import { RouteComponentProps, withRouter } from "react-router-dom";
+import { UserRolesEnum } from "../../../enums/user-roles-enum";
 
 class Navigation extends Component<RouteComponentProps> {
   logout() {
@@ -11,6 +12,7 @@ class Navigation extends Component<RouteComponentProps> {
 
   render() {
     const loggedInUser = localStorage.getItem("user");
+    const userRole = localStorage.getItem("role");
     return (
       <Navbar bg="primary" expand="lg" className="navbar-dark">
         <Navbar.Brand href="/">LanguageHub</Navbar.Brand>
@@ -23,7 +25,7 @@ class Navigation extends Component<RouteComponentProps> {
             <LinkContainer to="/translator" activeClassName="is-active">
               <Nav.Link>Translator</Nav.Link>
             </LinkContainer>
-            {loggedInUser ? (
+            {loggedInUser && userRole === UserRolesEnum.LECTURER ? (
               <LinkContainer to="/exercises" activeClassName="is-active">
                 <Nav.Link>Exercises</Nav.Link>
               </LinkContainer>

@@ -7,7 +7,8 @@ export type ExerciseActions = ActionType<typeof actions>;
 export interface IExerciseState {
     exercises: IExercise[],
     exercise: IExercise,
-    infoResponse: InfoResponse
+    infoResponse: InfoResponse,
+    redirect: boolean
 }
 
 export enum ACTION_TYPES {
