@@ -4,6 +4,7 @@ import { Component } from "react";
 import { Button, Form } from "react-bootstrap";
 import { ISolution } from "../../../../models/learning/solution.model";
 import { IListeningExerciseForPupil } from "../../../../models/learning/listening-exercise.model";
+import { LinkContainer } from "react-router-bootstrap";
 
 export interface IListeningExerciseFormProps {
   exercise: IListeningExerciseForPupil;
@@ -85,6 +86,10 @@ class ListeningExerciseForm extends Component<
           <Button variant="primary" type="submit">
             Save
           </Button>
+          <i className="mr-1"></i>
+          <LinkContainer to="/exercises-to-solve">
+            <Button variant="danger">Cancel</Button>
+          </LinkContainer>
         </Form>
       </React.Fragment>
     );

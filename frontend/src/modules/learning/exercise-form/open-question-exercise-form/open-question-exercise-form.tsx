@@ -4,6 +4,7 @@ import { Component } from "react";
 import { Button, Form } from "react-bootstrap";
 import { ISolution } from "../../../../models/learning/solution.model";
 import { IOpenQuestionExerciseForPupil } from "../../../../models/learning/open-question-exercise.model";
+import { LinkContainer } from "react-router-bootstrap";
 
 export interface IPropsOpenQuestionExerciseForm {
   exercise: IOpenQuestionExerciseForPupil;
@@ -77,6 +78,10 @@ class OpenQuestionExerciseForm extends Component<
           <Button variant="primary" type="submit">
             Save
           </Button>
+          <i className="mr-1"></i>
+          <LinkContainer to="/exercises-to-solve">
+            <Button variant="danger">Cancel</Button>
+          </LinkContainer>
         </Form>
       </React.Fragment>
     );

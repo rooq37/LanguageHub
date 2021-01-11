@@ -9,6 +9,7 @@ import Record from "../../../translator/record";
 import { IRootState } from "../../../../store";
 import { getTextFromSound, reset } from "../../../../store/translate/actions";
 import { connect } from "react-redux";
+import { LinkContainer } from "react-router-bootstrap";
 
 export interface ISpeakingExerciseFormProps extends StateProps, DispatchProps {
   exercise: ISpeakingExerciseForPupil;
@@ -111,6 +112,10 @@ class SpeakingExerciseForm extends Component<
           >
             Save
           </Button>
+          <i className="mr-1"></i>
+          <LinkContainer to="/exercises-to-solve">
+            <Button variant="danger">Cancel</Button>
+          </LinkContainer>
         </Form>
       </React.Fragment>
     );
