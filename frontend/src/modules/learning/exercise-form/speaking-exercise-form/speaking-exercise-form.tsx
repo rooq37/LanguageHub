@@ -3,19 +3,25 @@ import "./speaking-exercise-form.css";
 import { Component } from "react";
 import { Button, Form } from "react-bootstrap";
 import { ExerciseTypesEnum } from "../../../../enums/exercise-types.enum";
-import { ISolution } from "../../../../models/solution.model";
-import { ISpeakingExercise } from "../../../../models/speaking-exercise.model";
+import { ISolution } from "../../../../models/learning/solution.model";
+import { ISpeakingExerciseForPupil } from "../../../../models/learning/speaking-exercise.model";
+import Record from "../../../translator/record";
+import { IRootState } from "../../../../store";
+import { getTextFromSound, reset } from "../../../../store/translate/actions";
+import { connect } from "react-redux";
 
-export interface IPropsSpeakingExerciseForm {
-  exercise: ISpeakingExercise;
+export interface ISpeakingExerciseFormProps extends StateProps, DispatchProps {
+  exercise: ISpeakingExerciseForPupil;
   handleSubmit;
 }
-export interface IStatesSpeakingExerciseForm {
+export interface ISpeakingExerciseFormStates {
   solution: ISolution;
+  inputText: string;
+  validated: boolean;
 }
 class SpeakingExerciseForm extends Component<
-  IPropsSpeakingExerciseForm,
-  IStatesSpeakingExerciseForm
+ISpeakingExerciseFormProps,
+ISpeakingExerciseFormStates
 > {
   constructor(props) {
     super(props);
@@ -26,35 +32,103 @@ class SpeakingExerciseForm extends Component<
         exerciseType: ExerciseTypesEnum.SPEAKING,
         answers: []
       },
+      inputText: "",
+      validated: false
     };
   }
 
+  componentDidMount() {
+    this.props.reset();
+  }
+
+  handleInput(e) {
+    const solution = this.state.solution;
+    if (!solution.answers[0]) {
+      solution.answers.push(e.target.value);
+    } else {
+      solution.answers[0] = e.target.value;
+    }
+    this.setState({ solution: solution });
+  }
+
   handleSubmit(e) {
-    // e.preventDefault();
-    // this.setState({
-    //   exercise: {
-    //     question: name,
-    //     closedAnswers: [],
-    //   },
-    // });
-    this.props.handleSubmit(this.state.solution);
+    e.preventDefault();
+
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.stopPropagation();
+    } else {
+      this.props.handleSubmit(this.state.solution);
+    }
+
+    this.setState({ validated: true });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.answer != null &&
+      prevProps.answer !== this.props.answer
+    ) {
+      this.setState({
+        inputText: this.props.answer,
+      });
+    }
   }
 
   render() {
     return (
       <React.Fragment>
-        <Form.Group controlId="formBasicPassword">
-          
-        <p className="exerciseSpeakTitle">Exercise</p>
-        <p className="exerciseSpeakQuestion">Click mic button and say: {this.props.exercise.text}</p>
-        </Form.Group>
-        <Button>Mic</Button>
-        {/* <Form.Group controlId="formBasicCheckbox">
-          <Form.Control type="plaintext" value={this.state.solution.answers[0]}/>
-        </Form.Group> */}
+        <Form
+          validated={this.state.validated}
+          onSubmit={(e) => this.handleSubmit(e)}
+        >
+          <p className="exerciseSpeakTitle">{this.props.exercise.name}</p>
+          <p className="exerciseSpeakQuestion">Click mic button and say: {this.props.exercise.text}</p>
+          <Form.Group controlId="formRecord">
+                  <Record
+                    onStop={async (blobUrl) => {
+                      const audioBlob = await fetch(blobUrl).then((r) =>
+                        r.blob()
+                      );
+                      const sound = new File([audioBlob], "audiofile.mp3", {
+                        type: "audio/mp3",
+                      });
+                      this.props.getTextFromSound(sound);
+                    }}
+                  />
+                  <br />
+          </Form.Group>
+          <Form.Group controlId="formOpenExerciseAnswer">
+            <Form.Control
+              readOnly
+              type="plaintext"
+              value={this.state.inputText}
+              onChange={e => this.handleInput(e)}
+            />
+          </Form.Group>
+          <Button
+            variant="primary"
+            type="submit"
+            disabled={this.state.inputText.length === 0}
+          >
+            Save
+          </Button>
+        </Form>
       </React.Fragment>
     );
   }
 }
 
-export default SpeakingExerciseForm;
+const mapStateToProps = ({ translate }: IRootState) => ({
+  answer: translate.textToTranslate,
+});
+
+const mapDispatchToProps = {
+  getTextFromSound,
+  reset,
+};
+
+type StateProps = ReturnType<typeof mapStateToProps>;
+type DispatchProps = typeof mapDispatchToProps;
+
+export default connect(mapStateToProps, mapDispatchToProps)(SpeakingExerciseForm);

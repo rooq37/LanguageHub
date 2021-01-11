@@ -1,14 +1,14 @@
 import { ActionType } from 'typesafe-actions';
 import { InfoResponse } from '../../dtos/info-response';
-import { IExercise } from '../../models/exercise.model';
-import { ISolution } from '../../models/solution.model';
+import { IExerciseForPupil } from '../../models/learning/exercise-for-pupil.model';
+import { ISolution } from '../../models/learning/solution.model';
 import * as actions from './actions';
 
 export type SolutionActions = ActionType<typeof actions>;
 
 
 export interface ILearningState {
-    exercises: IExercise[],
+    exercises: IExerciseForPupil[],
     solution: ISolution,
     infoResponse: InfoResponse
 }

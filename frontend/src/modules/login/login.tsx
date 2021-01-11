@@ -47,6 +47,7 @@ class Login extends Component<{}, ITranslatorStates> {
                 <option value="Lisa">Lisa (lecturer)</option>
 -               <option value="Brian">Brian (lecturer)</option>
                 <option value="Krzysztof Z">Krzysztof Z (pupil)</option>
+                <option value="Mateusz P">Mateusz P (pupil)</option>
               </Form.Control>
             </Form.Group>
           </Col>

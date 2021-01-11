@@ -2,10 +2,7 @@ import { ACTION_TYPES } from './types';
 import axios from 'axios';
 import { InfoResponse } from '../../dtos/info-response';
 import { IExercise } from '../../models/exercise.model';
-<<<<<<< HEAD
 import { AssignationsRequest } from '../../dtos/assignations-request';
-=======
->>>>>>> 0add034 (tmp2)
 
 export function getAllExercises(author: String) {
   return function(dispatch){

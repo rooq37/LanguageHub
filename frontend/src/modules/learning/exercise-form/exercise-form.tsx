@@ -1,18 +1,18 @@
 import React from "react";
 import { Component } from "react";
 import { ExerciseTypesEnum } from "../../../enums/exercise-types.enum";
-import { IExercise } from "../../../models/exercise.model";
+import { IExerciseForPupil } from "../../../models/learning/exercise-for-pupil.model";
 import ClosedQuestionExerciseForm from "./closed-question-exercise-form/closed-question-exercise-form";
 import ListeningExerciseForm from "./listening-exercise-form/listening-exercise-form";
 import OpenQuestionExerciseForm from "./open-question-exercise-form/open-question-exercise-form";
 import SpeakingExerciseForm from "./speaking-exercise-form/speaking-exercise-form";
 
 export interface ILessonFormProps {
-  exercise: IExercise;
+  exercise: IExerciseForPupil;
   handleSubmit;
 }
 class ExerciseForm extends Component<ILessonFormProps> {
-  renderSwitch(exercise: IExercise) {
+  renderSwitch(exercise: IExerciseForPupil) {
     switch (exercise["@type"]) {
       case ExerciseTypesEnum.CLOSED_QUESTION:
         return (

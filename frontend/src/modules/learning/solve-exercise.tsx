@@ -1,41 +1,26 @@
 import React from "react";
 import { Component } from "react";
-import { Alert, Button } from "react-bootstrap";
-import { ExerciseTypesEnum } from "../../enums/exercise-types.enum";
+import { Alert } from "react-bootstrap";
 import ExerciseForm from "./exercise-form/exercise-form";
-import { IClosedQuestionExercise } from "../../models/closed-question-exercise.model";
-import { ISolution } from "../../models/solution.model";
+import { ISolution } from "../../models/learning/solution.model";
 import { connect } from "react-redux";
-import { getExercise } from "../../store/exercise/actions";
 import { createSolution } from "../../store/learning/actions";
-import { RouteComponentProps, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { IRootState } from "../../store";
 import FlashState from "../../flashstate";
-import { IExercise } from "../../models/exercise.model";
-
-export interface MatchParams {
-  exerciseName: string;
-  authorName: string;
-}
+import { IExerciseForPupil } from "../../models/learning/exercise-for-pupil.model";
 
 export interface ISolveExerciseProps
   extends StateProps,
-    DispatchProps,
-    RouteComponentProps<MatchParams> {}
+    DispatchProps {}
 
 
 class SolveExercise extends Component<ISolveExerciseProps> {
+  exercise: IExerciseForPupil;
   constructor(props) {
     super(props);
+    this.exercise = props.location.state ? props.location.state.exercise : null;
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  componentDidMount() {
-    const loggedInUser = localStorage.getItem("user");
-    const {
-      match: { params },
-    } = this.props;
-    this.props.getExercise(params.exerciseName, params.authorName);
   }
 
   handleSubmit(solution: ISolution) {
@@ -64,7 +49,7 @@ class SolveExercise extends Component<ISolveExerciseProps> {
   }
 
   render() {
-    const { exercise } = this.props;
+    const exercise = this.exercise;
         return (
           <React.Fragment>
             {this.checkIfSuccess()}
@@ -82,15 +67,13 @@ class SolveExercise extends Component<ISolveExerciseProps> {
 }
 
 
-const mapStateToProps = ({ learning, exercise }: IRootState) => ({
+const mapStateToProps = ({ learning }: IRootState) => ({
   infoResponse: learning.infoResponse,
-  solution: learning.solution,
-  exercise: exercise.exercise
+  solution: learning.solution
 });
 
 const mapDispatchToProps = {
-  createSolution,
-  getExercise,
+  createSolution
 };
 
 type StateProps = ReturnType<typeof mapStateToProps>;

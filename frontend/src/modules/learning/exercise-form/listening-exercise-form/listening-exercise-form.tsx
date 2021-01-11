@@ -2,21 +2,22 @@ import React from "react";
 import "./listening-exercise-form.css";
 import { Component } from "react";
 import { Button, Form } from "react-bootstrap";
-import { ExerciseTypesEnum } from "../../../../enums/exercise-types.enum";
-import { IListeningExercise } from "../../../../models/listening-exercise.model";
-import { ISolution } from "../../../../models/solution.model";
+import { ISolution } from "../../../../models/learning/solution.model";
+import { IListeningExerciseForPupil } from "../../../../models/learning/listening-exercise.model";
 
-export interface IPropsListeningExerciseForm {
-  exercise: IListeningExercise;
+export interface IListeningExerciseFormProps {
+  exercise: IListeningExerciseForPupil;
   handleSubmit;
 }
-export interface IStatesListeningExerciseForm {
+export interface IListeningExerciseFormStates {
   solution: ISolution;
+  validated: boolean;
 }
 class ListeningExerciseForm extends Component<
-  IPropsListeningExerciseForm,
-  IStatesListeningExerciseForm
+IListeningExerciseFormProps,
+IListeningExerciseFormStates
 > {
+
   constructor(props) {
     super(props);
     const { exercise } = this.props;
@@ -26,12 +27,13 @@ class ListeningExerciseForm extends Component<
         exerciseName: exercise.name,
         exerciseType: exercise["@type"],
         answers: []
-      }
+      },
+      validated: false
     };
   }
 
   handleInput(e) {
-    const solution = this.state.solution;
+    const { solution } = this.state;
     if (!solution.answers[0]) {
       solution.answers.push(e.target.value);
     } else {
@@ -41,22 +43,44 @@ class ListeningExerciseForm extends Component<
   }
 
   handleSubmit(e) {
-    this.props.handleSubmit(this.state.solution);
+    e.preventDefault();
+
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.stopPropagation();
+    } else {
+      this.props.handleSubmit(this.state.solution);
+    }
+
+    this.setState({ validated: true });
   }
 
   render() {
+    const { encodedSound } = this.props.exercise;
     return (
       <React.Fragment>
-        <Form.Group controlId="formBasicPassword">
-        <p className="exerciseListenTitle">Exercise</p>
-        <p className="exerciseListenQuestion">Listen and write</p>
-        </Form.Group>
-        <Form.Group controlId="formBasicCheckbox">
-          <Form.Control type="plaintext" onChange={e => this.handleInput(e)}/>
-        </Form.Group>
-        <Button variant="primary" type="submit" onClick={e => this.handleSubmit(e)}>
-          Save
-        </Button>
+        <Form
+          validated={this.state.validated}
+          onSubmit={(e) => this.handleSubmit(e)}
+        >
+          <p className="exerciseListenTitle">{this.props.exercise.name}</p>
+          <p className="exerciseListenQuestion">Listen and write</p>
+          <div>
+              {encodedSound ? (
+                <audio src={"data:audio/mp3;base64," + encodedSound} controls />
+              ) : ("Sound not found")}
+            </div>
+          <Form.Group controlId="formListening">
+            <Form.Control
+              required
+              type="plaintext"
+              onChange={e => this.handleInput(e)}
+            />
+          </Form.Group>
+          <Button variant="primary" type="submit">
+            Save
+          </Button>
+        </Form>
       </React.Fragment>
     );
   }

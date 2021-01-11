@@ -2,17 +2,10 @@ import React from "react";
 import { Component } from "react";
 import { connect } from "react-redux";
 import { IRootState } from "../../store";
-import { LinkContainer } from "react-router-bootstrap";
 import { Alert, Button, Table } from "react-bootstrap";
 import FlashState from "../../flashstate";
-import { faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ExerciseTypesEnum } from "../../enums/exercise-types.enum";
-import { IClosedQuestionExercise } from "../../models/closed-question-exercise.model";
-import { IListeningExercise } from "../../models/listening-exercise.model";
-import { IOpenQuestionExercise } from "../../models/open-question-exercise.model";
-import { ISpeakingExercise } from "../../models/speaking-exercise.model";
 import { getPupilExercises, reset } from "../../store/learning/actions";
+import { Link } from "react-router-dom";
 
 export interface IExercisesToSolveListProps extends StateProps, DispatchProps { }
 
@@ -47,28 +40,36 @@ class ExercisesToSolveList extends Component<
           <Alert variant="success">{this.state.successMessage}</Alert>
         ) : null}
         <p>List of your exercises:</p>
-        <Table striped bordered hover>
+        <Table striped hover>
           <thead>
-            <tr>
-              <th>#</th>
-              <th>Name</th>
-              <th>Options</th>
+            <tr className="d-flex">
+              <th className="col-1">#</th>
+              <th className="col-3">Name</th>
+              <th className="col-4">Type</th>
+              <th className="col-2">Options</th>
+              <th className="col-2">Result</th>
             </tr>
           </thead>
           <tbody>
             {exercises.map((exercise, index) => {
               return (
-                <tr key={index}>
-                  <td>{index + 1}</td>
-                  <td>{exercise.name}</td>
-                  <td>
-                    <LinkContainer to={"/exercises-to-solve/" + exercise.author + "/" + exercise.name}>
-                      <Button variant="success">
-                        Solve
-                      </Button>
-                    </LinkContainer>
-                    <i className="mr-2"></i>
-                  </td>
+                <tr key={index} className="d-flex">
+                <td className="col-1">{index + 1}</td>
+                <td className="col-3">{exercise.name}</td>
+                <td className="col-4">{exercise["@type"]}</td>
+                <td className="col-2">
+                <Link to={{ pathname: "/exercises-to-solve/solve", state: { exercise: exercise } }}>
+                  {exercise.solved ? 
+                    <Button variant="secondary" disabled>
+                      Solve
+                    </Button> :
+                    <Button variant="success">
+                      Solve
+                    </Button>}
+                  </Link>
+                  <i className="mr-2"></i>
+                </td>
+                <td className="col-2">{exercise.percentageScore * 100}%</td>
                 </tr>
               );
             })}

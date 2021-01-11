@@ -3,7 +3,7 @@ import "./closed-question-exercise-form.css"
 import { Component } from "react";
 import { Button, Form } from "react-bootstrap";
 import { IClosedQuestionExercise } from "../../../../models/closed-question-exercise.model";
-import { ISolution } from "../../../../models/solution.model";
+import { ISolution } from "../../../../models/learning/solution.model";
 
 export interface IPropsClosedQuestionExerciseForm {
   exercise: IClosedQuestionExercise;
@@ -11,6 +11,7 @@ export interface IPropsClosedQuestionExerciseForm {
 }
 export interface IStatesClosedQuestionExerciseForm {
   solution: ISolution;
+  validated: boolean;
 }
 class ClosedQuestionExerciseForm extends Component<
   IPropsClosedQuestionExerciseForm,
@@ -25,7 +26,8 @@ class ClosedQuestionExerciseForm extends Component<
         exerciseName: exercise.name,
         exerciseType: exercise["@type"],
         answers: []
-      }
+      },
+      validated: false
     }
   }
 
@@ -43,25 +45,42 @@ class ClosedQuestionExerciseForm extends Component<
   }
 
   handleSubmit(e) {
-    this.props.handleSubmit(this.state.solution);
+    e.preventDefault();
+
+    const form = e.currentTarget;
+    if (form.checkValidity() === false) {
+      e.stopPropagation();
+    } else {
+      this.props.handleSubmit(this.state.solution);
+    }
+
+    this.setState({ validated: true });
   }
 
   render() {
     const { exercise } = this.props;
     return (
       <React.Fragment>
-        <p className="exerciseClosedTitle">Exercise</p>
-        <p className="exerciseClosedQuestion">{exercise.question}</p>
-        <Form.Group controlId="formClosedAnswer">
-          {exercise.closedAnswers.map((answer, key) => {
-            return (
-              <Form.Check type="checkbox" label={answer.answer} key={key} onChange={e => this.handleClosedAnswerChanged(e, answer.answer)}/>
-            )
-          })}
-        </Form.Group>
-        <Button variant="primary" type="submit" onClick={e => this.handleSubmit(e)}>
-          Save
-        </Button>
+        <Form
+          validated={this.state.validated}
+          onSubmit={(e) => this.handleSubmit(e)}
+        >
+          <p className="exerciseClosedTitle">{this.props.exercise.name}</p>
+          <p className="exerciseClosedQuestion">{exercise.question}</p>
+          <Form.Group controlId="formClosedAnswer">
+            {exercise.closedAnswers.map((answer, key) => {
+              return (
+                <Form.Check type="checkbox" label={answer.answer} key={key} onChange={e => this.handleClosedAnswerChanged(e, answer.answer)}/>
+              )
+            })}
+          </Form.Group>
+          <Button
+            variant="primary"
+            type="submit"
+          >
+            Save
+          </Button>
+        </Form>
       </React.Fragment>
     );
   }

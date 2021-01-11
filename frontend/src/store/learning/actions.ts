@@ -1,7 +1,7 @@
 import { ACTION_TYPES } from './types';
 import axios from 'axios';
 import { InfoResponse } from '../../dtos/info-response';
-import { ISolution } from '../../models/solution.model';
+import { ISolution } from '../../models/learning/solution.model';
 
 export function createSolution(solution: ISolution) {
   return function(dispatch){
