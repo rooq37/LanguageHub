@@ -24,7 +24,6 @@ class SolveExercise extends Component<ISolveExerciseProps> {
   }
 
   handleSubmit(solution: ISolution) {
-    console.log(solution);
     solution.pupilName = localStorage.getItem("user");
     this.props.createSolution(solution);
   }
