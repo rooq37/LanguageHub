@@ -12,6 +12,8 @@ import { Container } from "react-bootstrap";
 import ExercisesList from "../exercise/exercises.list";
 import CreateExercise from "../exercise/create-exercise";
 import EditExercise from "../exercise/edit-exercise";
+import SolveExercise from "../learning/solve-exercise";
+import ExercisesToSolveList from "../learning/exercises-to-solve.list";
 import LoadingBar from "react-redux-loading-bar";
 
 class App extends Component {
@@ -43,6 +45,8 @@ class App extends Component {
               />
               <Route path="/about" component={About} />
               <Route path="/login" component={Login} />
+              <Route path="/exercises-to-solve/solve" component={SolveExercise}/>
+              <Route path="/exercises-to-solve" component={ExercisesToSolveList} />
             </Switch>
           </Container>
         </div>

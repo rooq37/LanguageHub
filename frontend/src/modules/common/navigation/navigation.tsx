@@ -30,6 +30,11 @@ class Navigation extends Component<RouteComponentProps> {
                 <Nav.Link>Exercises</Nav.Link>
               </LinkContainer>
             ) : null}
+            {loggedInUser && userRole === UserRolesEnum.PUPIL ? (
+              <LinkContainer to="/exercises-to-solve" activeClassName="is-active">
+                <Nav.Link>Lessons</Nav.Link>
+              </LinkContainer>
+            ) : null}
             <LinkContainer to="/about" activeClassName="is-active">
               <Nav.Link>About</Nav.Link>
             </LinkContainer>
