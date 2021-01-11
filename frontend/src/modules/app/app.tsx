@@ -20,7 +20,15 @@ class App extends Component {
       <div id="main">
         <Navigation />
         <div>
-          <LoadingBar showFastActions style={{ position: "relative" }} />
+          <LoadingBar showFastActions className="loadingBar" />
+          <LoadingBar
+            showFastActions
+            className="longLoadingBar"
+            scope="longTask"
+            updateTime={1000}
+            maxProgress={95}
+            progressIncrease={10}
+          />
         </div>
         <div id="content">
           <Container>
