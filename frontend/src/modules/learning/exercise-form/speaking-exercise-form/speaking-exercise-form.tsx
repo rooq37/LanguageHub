@@ -9,6 +9,7 @@ import Record from "../../../translator/record";
 import { IRootState } from "../../../../store";
 import { getTextFromSound, reset } from "../../../../store/translate/actions";
 import { connect } from "react-redux";
+import { LinkContainer } from "react-router-bootstrap";
 
 export interface ISpeakingExerciseFormProps extends StateProps, DispatchProps {
   exercise: ISpeakingExerciseForPupil;
@@ -20,8 +21,8 @@ export interface ISpeakingExerciseFormStates {
   validated: boolean;
 }
 class SpeakingExerciseForm extends Component<
-ISpeakingExerciseFormProps,
-ISpeakingExerciseFormStates
+  ISpeakingExerciseFormProps,
+  ISpeakingExerciseFormStates
 > {
   constructor(props) {
     super(props);
@@ -30,10 +31,10 @@ ISpeakingExerciseFormStates
         pupilName: "Meffiu",
         exerciseName: this.props.exercise.name,
         exerciseType: ExerciseTypesEnum.SPEAKING,
-        answers: []
+        answers: [],
       },
       inputText: "",
-      validated: false
+      validated: false,
     };
   }
 
@@ -41,13 +42,14 @@ ISpeakingExerciseFormStates
     this.props.reset();
   }
 
-  handleInput(e) {
+  handleInput(text) {
     const solution = this.state.solution;
     if (!solution.answers[0]) {
-      solution.answers.push(e.target.value);
+      solution.answers.push(text);
     } else {
-      solution.answers[0] = e.target.value;
+      solution.answers[0] = text;
     }
+
     this.setState({ solution: solution });
   }
 
@@ -65,10 +67,8 @@ ISpeakingExerciseFormStates
   }
 
   componentDidUpdate(prevProps) {
-    if (
-      this.props.answer != null &&
-      prevProps.answer !== this.props.answer
-    ) {
+    if (this.props.answer != null && prevProps.answer !== this.props.answer) {
+      this.handleInput(this.props.answer);
       this.setState({
         inputText: this.props.answer,
       });
@@ -83,27 +83,26 @@ ISpeakingExerciseFormStates
           onSubmit={(e) => this.handleSubmit(e)}
         >
           <p className="exerciseSpeakTitle">{this.props.exercise.name}</p>
-          <p className="exerciseSpeakQuestion">Click mic button and say: {this.props.exercise.text}</p>
+          <p className="exerciseSpeakQuestion">
+            Click mic button and say: <b>{this.props.exercise.text}</b>
+          </p>
           <Form.Group controlId="formRecord">
-                  <Record
-                    onStop={async (blobUrl) => {
-                      const audioBlob = await fetch(blobUrl).then((r) =>
-                        r.blob()
-                      );
-                      const sound = new File([audioBlob], "audiofile.mp3", {
-                        type: "audio/mp3",
-                      });
-                      this.props.getTextFromSound(sound);
-                    }}
-                  />
-                  <br />
+            <Record
+              onStop={async (blobUrl) => {
+                const audioBlob = await fetch(blobUrl).then((r) => r.blob());
+                const sound = new File([audioBlob], "audiofile.mp3", {
+                  type: "audio/mp3",
+                });
+                this.props.getTextFromSound(sound);
+              }}
+            />
+            <br />
           </Form.Group>
           <Form.Group controlId="formOpenExerciseAnswer">
             <Form.Control
               readOnly
               type="plaintext"
               value={this.state.inputText}
-              onChange={e => this.handleInput(e)}
             />
           </Form.Group>
           <Button
@@ -113,6 +112,10 @@ ISpeakingExerciseFormStates
           >
             Save
           </Button>
+          <i className="mr-1"></i>
+          <LinkContainer to="/exercises-to-solve">
+            <Button variant="danger">Cancel</Button>
+          </LinkContainer>
         </Form>
       </React.Fragment>
     );
@@ -131,4 +134,7 @@ const mapDispatchToProps = {
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(SpeakingExerciseForm);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(SpeakingExerciseForm);

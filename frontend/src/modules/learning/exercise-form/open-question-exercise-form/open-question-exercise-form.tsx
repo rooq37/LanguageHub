@@ -4,6 +4,7 @@ import { Component } from "react";
 import { Button, Form } from "react-bootstrap";
 import { ISolution } from "../../../../models/learning/solution.model";
 import { IOpenQuestionExerciseForPupil } from "../../../../models/learning/open-question-exercise.model";
+import { LinkContainer } from "react-router-bootstrap";
 
 export interface IPropsOpenQuestionExerciseForm {
   exercise: IOpenQuestionExerciseForPupil;
@@ -25,10 +26,10 @@ class OpenQuestionExerciseForm extends Component<
         pupilName: "",
         exerciseName: exercise.name,
         exerciseType: exercise["@type"],
-        answers: []
+        answers: [],
       },
-      validated: false
-    }
+      validated: false,
+    };
   }
 
   handleInput(e) {
@@ -58,17 +59,29 @@ class OpenQuestionExerciseForm extends Component<
     return (
       <React.Fragment>
         <Form
+          noValidate
           validated={this.state.validated}
           onSubmit={(e) => this.handleSubmit(e)}
         >
           <p className="exerciseOpenTitle">{this.props.exercise.name}</p>
           <p className="exerciseOpenQuestion">{this.props.exercise.question}</p>
           <Form.Group controlId="formOpenExerciseAnswer">
-            <Form.Control type="plaintext" onChange={e => this.handleInput(e)} required/>
+            <Form.Control
+              type="plaintext"
+              onChange={(e) => this.handleInput(e)}
+              required
+            />
+            <Form.Control.Feedback type="invalid">
+              Please enter the answer.
+            </Form.Control.Feedback>
           </Form.Group>
           <Button variant="primary" type="submit">
             Save
           </Button>
+          <i className="mr-1"></i>
+          <LinkContainer to="/exercises-to-solve">
+            <Button variant="danger">Cancel</Button>
+          </LinkContainer>
         </Form>
       </React.Fragment>
     );

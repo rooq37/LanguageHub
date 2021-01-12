@@ -58,8 +58,9 @@ public class LearningService {
                 ExerciseForPupilDTO exerciseForPupilDTO = exerciseMapper.map(exercise);
                 if(assignedExercise.getAnswers() != null) {
                     exerciseForPupilDTO.setSolved(true);
-                    double percentageScore = assignedExercise.getAnswers().stream()
-                            .filter(SingleAnswer::isCorrect).count() / assignedExercise.getAnswers().size();
+                    double percentageScore = (assignedExercise.getAnswers().size() == 0) ? 0 :
+                            ((double) assignedExercise.getAnswers().stream().filter(SingleAnswer::isCorrect)
+                                    .count()) / assignedExercise.getAnswers().size();
                     exerciseForPupilDTO.setPercentageScore(percentageScore);
                 }else {
                     exerciseForPupilDTO.setSolved(false);

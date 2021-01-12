@@ -1,6 +1,6 @@
-
 import { IExerciseForPupil } from "./exercise-for-pupil.model";
 
-export interface IClosedQuestionExercise extends IExerciseForPupil {
-    question?: string
+export interface IClosedQuestionExerciseForPupil extends IExerciseForPupil {
+    question?: string,
+    answers?: string[]
 } 

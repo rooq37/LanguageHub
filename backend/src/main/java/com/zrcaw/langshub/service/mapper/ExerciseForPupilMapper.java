@@ -1,9 +1,12 @@
 package com.zrcaw.langshub.service.mapper;
 
 import com.zrcaw.langshub.dto.learning.*;
+import com.zrcaw.langshub.model.exercise.ClosedAnswer;
 import com.zrcaw.langshub.model.exercise.Exercise;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+
+import java.util.stream.Collectors;
 
 @Service
 public class ExerciseForPupilMapper {
@@ -19,7 +22,9 @@ public class ExerciseForPupilMapper {
             case OpenQuestionExercise:
                 return modelMapper.map(exercise, OpenQuestionExerciseForPupilDTO.class);
             case ClosedQuestionExercise:
-                return modelMapper.map(exercise, ClosedQuestionExerciseForPupilDTO.class);
+                ClosedQuestionExerciseForPupilDTO dto = modelMapper.map(exercise, ClosedQuestionExerciseForPupilDTO.class);
+                dto.setAnswers(exercise.getClosedAnswers().stream().map(ClosedAnswer::getAnswer).collect(Collectors.toList()));
+                return dto;
             case ListeningExercise:
                 return modelMapper.map(exercise, ListeningExerciseForPupilDTO.class);
             case SpeakingExercise:

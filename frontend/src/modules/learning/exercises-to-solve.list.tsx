@@ -7,7 +7,7 @@ import FlashState from "../../flashstate";
 import { getPupilExercises, reset } from "../../store/learning/actions";
 import { Link } from "react-router-dom";
 
-export interface IExercisesToSolveListProps extends StateProps, DispatchProps { }
+export interface IExercisesToSolveListProps extends StateProps, DispatchProps {}
 
 export interface IExercisesToSolveListStates {
   successMessage: string;
@@ -16,7 +16,7 @@ export interface IExercisesToSolveListStates {
 class ExercisesToSolveList extends Component<
   IExercisesToSolveListProps,
   IExercisesToSolveListStates
-  > {
+> {
   constructor(props) {
     super(props);
     this.state = {
@@ -30,6 +30,23 @@ class ExercisesToSolveList extends Component<
     const loggedInUser = localStorage.getItem("user");
     this.props.getPupilExercises(loggedInUser);
     this.setState({ successMessage: FlashState.get("message") });
+  }
+
+  getClassForPercentage(percentageScore) {
+    if (percentageScore <= 0.25) {
+      return "text-danger";
+    } else if (percentageScore >= 0.75) {
+      return "text-success";
+    }
+    return null;
+  }
+
+  orderExercises(exercises) {
+    return exercises
+      ? exercises
+          .filter((e) => !e.solved)
+          .concat(exercises.filter((e) => e.solved))
+      : [];
   }
 
   render() {
@@ -51,25 +68,41 @@ class ExercisesToSolveList extends Component<
             </tr>
           </thead>
           <tbody>
-            {exercises.map((exercise, index) => {
+            {this.orderExercises(exercises).map((exercise, index) => {
               return (
                 <tr key={index} className="d-flex">
-                <td className="col-1">{index + 1}</td>
-                <td className="col-3">{exercise.name}</td>
-                <td className="col-4">{exercise["@type"]}</td>
-                <td className="col-2">
-                <Link to={{ pathname: "/exercises-to-solve/solve", state: { exercise: exercise } }}>
-                  {exercise.solved ? 
-                    <Button variant="secondary" disabled>
-                      Solve
-                    </Button> :
-                    <Button variant="success">
-                      Solve
-                    </Button>}
-                  </Link>
-                  <i className="mr-2"></i>
-                </td>
-                <td className="col-2">{exercise.percentageScore * 100}%</td>
+                  <td className="col-1">{index + 1}</td>
+                  <td className="col-3">{exercise.name}</td>
+                  <td className="col-4">{exercise["@type"]}</td>
+                  <td className="col-2">
+                    <Link
+                      to={{
+                        pathname: "/exercises-to-solve/solve",
+                        state: { exercise: exercise },
+                      }}
+                    >
+                      {exercise.solved ? (
+                        <Button variant="secondary" disabled>
+                          Solve
+                        </Button>
+                      ) : (
+                        <Button variant="success">Solve</Button>
+                      )}
+                    </Link>
+                    <i className="mr-2"></i>
+                  </td>
+                  <td className="col-2">
+                    {exercise.solved ? (
+                      <b
+                        className={this.getClassForPercentage(
+                          exercise.percentageScore
+                        )}
+                      >
+                        {" "}
+                        {exercise.percentageScore * 100 + "%"}{" "}
+                      </b>
+                    ) : null}
+                  </td>
                 </tr>
               );
             })}
@@ -92,5 +125,7 @@ const mapDispatchToProps = {
 type StateProps = ReturnType<typeof mapStateToProps>;
 type DispatchProps = typeof mapDispatchToProps;
 
-export default connect(mapStateToProps, mapDispatchToProps)(ExercisesToSolveList);
-
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ExercisesToSolveList);
