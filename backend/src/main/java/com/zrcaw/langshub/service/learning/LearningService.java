@@ -36,11 +36,10 @@ public class LearningService {
 
     public LearningService(PupilDaoImpl pupilDaoImpl,
                            ExerciseDaoImpl exerciseDaoImpl,
-                           ExerciseForPupilMapper exerciseForPupilMapper,
                            S3Service s3Service) {
         this.pupilDao = pupilDaoImpl;
         this.exerciseDao = exerciseDaoImpl;
-        this.exerciseMapper = exerciseForPupilMapper;
+        this.exerciseMapper = new ExerciseForPupilMapper();
         this.s3Service = s3Service;
     }
 
