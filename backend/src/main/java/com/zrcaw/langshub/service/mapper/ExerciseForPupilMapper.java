@@ -13,8 +13,8 @@ public class ExerciseForPupilMapper {
 
     private final ModelMapper modelMapper;
 
-    public ExerciseForPupilMapper(ModelMapper modelMapper) {
-        this.modelMapper = modelMapper;
+    public ExerciseForPupilMapper() {
+        this.modelMapper = new ModelMapper();
     }
 
     public ExerciseForPupilDTO map(Exercise exercise) {
